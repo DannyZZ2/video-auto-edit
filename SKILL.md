@@ -170,34 +170,32 @@ After receiving the edited video, ask whether the user wants a custom visual sty
 拿到剪辑好视频后，询问用户是否需要自定义视觉风格。
 
 - If yes: ask the user to upload or point to a style Markdown file.
-- If no: use the project/default `DESIGN.md`. If no usable `DESIGN.md` exists, create a default style brief before packaging design and either save it as `DESIGN.md` in the packaging workspace or include it at the top of the packaging plan.
+- If no: use the project/default `DESIGN.md`. If no usable `DESIGN.md` exists, read `references/default-design.md` from this skill and use it as the default visual style brief.
 
 - 如果需要：让用户上传或指定风格 Markdown 文件。
-- 如果不需要：使用项目或默认的 `DESIGN.md`。如果没有可用的 `DESIGN.md`，先创建默认风格简报，再进入包装设计；可以保存为包装工作区里的 `DESIGN.md`，也可以写在包装方案开头。
+- 如果不需要：使用项目或默认的 `DESIGN.md`。如果没有可用的 `DESIGN.md`，读取本 skill 的 `references/default-design.md` 作为默认视觉风格简报。
 
 Read the selected style file before designing packaging. Carry forward hard constraints such as safe zones, colors, typography, and forbidden transitions.
 
 设计包装前必须先读取所选风格文件。要继承安全区、颜色、字体、禁用转场等硬约束。
 
-Default style brief when `DESIGN.md` is missing:
+After reading the selected style Markdown, pass its hard constraints and visual direction into `$video-use` as part of the packaging-design brief. The packaging plan must be designed by `$video-use` from the edited video, transcript text, EDL, SRT/timestamps, and selected style file together. The main agent must not bypass `$video-use` and draft the packaging plan by itself.
 
-缺少 `DESIGN.md` 时的默认风格简报：
+读取用户提供的风格 Markdown 后，必须把其中的硬约束和视觉方向作为包装设计 brief 交给 `$video-use`。包装方案必须由 `$video-use` 基于剪辑后视频、转写文本、EDL、SRT/时间戳和用户风格文件一起设计。主 Agent 不得绕过 `$video-use` 自行产出包装方案。
 
-- Layout: keep the middle lower subtitle area clear; place cards, keywords, terminals, and labels mainly on the left, right, or upper third; never cover the speaker's face or mouth.
-- Visual language: compact tech HUD, cyber-blue/cyan accents, restrained glow, translucent dark cards, thin borders, visible depth layers, and distinctive bold display typography rather than plain system-text styling.
-- Motion: small-scale card bounce, keyword pop, mouse click, drag/snap, checklist completion, collision rebound, and content-specific loading indicators; avoid transition flashes, scan wipes, and whole-video progress bars.
-- Density: keep overlays smaller than the main subject, use short text, stagger elements, and remove or fade packaging as soon as the sentence beat is complete.
+Default style brief when `DESIGN.md` is missing: read `references/default-design.md` completely before packaging design.
 
-- 布局：预留下方中间字幕安全区；卡片、关键词、终端框和标签优先放左侧、右侧或上三分区；不得遮挡人物脸部和嘴部。
-- 视觉语言：紧凑科技 HUD，蓝色/青色点缀，克制发光，半透明深色卡片，细描边，明确层级，使用有辨识度的粗体标题字，不使用普通系统字的平铺效果。
-- 动效：小幅卡片弹跳、关键词弹出、鼠标点击、拖拽吸附、清单勾选、卡片碰撞回弹、内容内部加载状态；避免转场闪烁、扫描光效和整条视频进度条。
-- 密度：包装元素要小于主体视觉权重，文字尽量短，元素错峰出现，当前句子节奏结束后及时退场或淡出。
+缺少 `DESIGN.md` 时的默认风格简报：进入包装设计前，完整读取 `references/default-design.md`。
 
 ### 4. Design The Packaging Plan Only / 只设计包装方案
 
 Use `$video-use` to analyze the edited video and align visual packaging to the transcript/subtitle content. This step must not render, modify, or overwrite the source video.
 
 使用 `$video-use` 分析剪辑后的视频，并把视觉包装与字幕/文案内容对齐。此步骤不得渲染、不得修改、不得覆盖原视频。
+
+The main agent's role in this step is to prepare inputs for `$video-use`, including the edited video path, transcript artifacts, `edl.json`, source or master SRT when available, selected style Markdown, and the keyword-animation reference. `$video-use` must return the packaging motion design draft. The main agent may summarize or relay that draft to the user, but must not replace it with a self-authored packaging plan.
+
+此步骤中，主 Agent 的职责是为 `$video-use` 准备输入，包括剪辑后视频路径、转写产物、`edl.json`、可用的源字幕或 `master.srt`、已选择的风格 Markdown，以及关键词动效参考。包装动效设计稿必须由 `$video-use` 返回。主 Agent 可以整理或转述该设计稿给用户，但不得用自己另写的包装方案替代它。
 
 Before drafting the packaging plan, read `references/keyword-animation-effects.md` and choose or combine suitable keyword, card, mouse, collision, drag, snapping, checklist, and loading effects according to subtitle meaning.
 
@@ -213,6 +211,7 @@ The design draft must include, for every animation segment:
 - Motion details: direction, speed feel, easing, stagger, highlight timing.
 - Layout: safe zone, face/mouth avoidance, subtitle-safe area, layer order.
 - Visual style: colors, font/weight, card style, glow, borders, hierarchy.
+- Applied style constraints: cite the specific constraints from the selected style Markdown that shaped this segment.
 
 - 时间节点：开始和结束时间。
 - 画面文字：屏幕上实际出现的文字、关键词、卡片、标签或字幕。
@@ -220,6 +219,33 @@ The design draft must include, for every animation segment:
 - 运动细节：方向、速度感、缓动、错峰、重点高亮时间。
 - 布局：安全区、不挡脸不挡嘴、字幕安全区、层级顺序。
 - 视觉风格：颜色、字体/字重、卡片样式、发光、边框、层级。
+- 已应用的风格约束：说明该段具体采用了所选风格 Markdown 中的哪些约束。
+
+The packaging motion design draft must use this exact Markdown block format. Do not replace it with a table, a loose paragraph, or a general style summary:
+
+包装动效设计稿必须使用下面这种 Markdown 分段格式。不得用表格、散文段落或泛泛的风格总结替代：
+
+```text
+包装动效方案
+
+0.00-1.55s
+画面文字：GPT 5.6、发布
+动效：左上角模式标题卡从左滑入，GPT 5.6 关键词轻微 pop，发布 标签短促点亮后收起。
+运动：ease-out，关键元素错峰进入；如无独立运动细节，写“同动效描述”。
+布局：左上三分区，不碰脸部；层级在人物前但低视觉权重。
+已应用的风格约束：引用所选风格 Markdown 中实际采用的颜色、字体、卡片、安全区或禁用项。
+
+1.55-3.20s
+画面文字：2 种推理模式
+动效：两枚模式芯片从标题卡下方 stagger 弹出，先显示空芯片，再填入 Max / Ultra 轮廓。
+运动：ease-out，芯片间 4 帧错峰，边框青色脉冲一次。
+布局：左侧中上，保留下方字幕区。
+已应用的风格约束：引用所选风格 Markdown 中实际采用的约束。
+```
+
+Each segment must start with a precise `start-end` time range and must include `画面文字`、`动效`、`运动`、`布局`、`已应用的风格约束`. If a segment has no visible overlay, write `画面文字：无` and explain why no overlay should appear. The visible text must be short and concrete; do not use full transcript sentences as on-screen overlay text unless the user explicitly requests it.
+
+每个段落必须以精确的 `开始-结束` 时间范围开头，并且必须包含 `画面文字`、`动效`、`运动`、`布局`、`已应用的风格约束`。如果某段不应出现包装元素，写 `画面文字：无` 并说明不出现动效的原因。画面文字必须短而具体；除非用户明确要求，不要把完整口播句子直接作为包装大字。
 
 Present the draft to the user and wait for approval. Do not implement Remotion before approval.
 
