@@ -1,0 +1,4 @@
+interface:
+  display_name: "Video Packaging Remotion GSAP"
+  short_description: "剪辑确认到 Remotion 动画包装预览"
+  default_prompt: "Use $video-packaging-remotion-gsap to package my edited video with Remotion and GSAP."
