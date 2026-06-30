@@ -103,6 +103,7 @@ The bundle must include:
 - `transcription_provider`: `elevenlabs` or `whisper`.
 - `word_timestamps_path`: required when ElevenLabs is selected, unless the user provided a verified equivalent word-level timestamp file.
 - `segment_timestamps_path`: required when Whisper is selected. If the local Whisper tool can produce word-level timestamps, include that file too, but still mark the provider as `whisper`.
+- `keyword_cues_path`: required for packaging. It must list each selected subtitle keyword, its subtitle line, trigger time, timing source, and confidence.
 - `edl_path`: edit decision file when available. If the user provided an already-edited video and no EDL exists, set this to `none`.
 
 - `edited_video_path`：用于包装的最终剪辑视频。
@@ -111,6 +112,7 @@ The bundle must include:
 - `transcription_provider`：`elevenlabs` 或 `whisper`。
 - `word_timestamps_path`：选择 ElevenLabs 时必须提供，除非用户已经提供可验证的等效词级时间戳文件。
 - `segment_timestamps_path`：选择 Whisper 时必须提供。如果本地 Whisper 工具能产出词级时间戳，也一并保留，但 provider 仍标记为 `whisper`。
+- `keyword_cues_path`：包装阶段必须提供。它要列出每个选中的字幕关键词、所属字幕行、触发时间、时间来源和置信度。
 - `edl_path`：有剪辑决策文件时填写；如果用户提供的是已经剪辑好的视频且没有 EDL，写 `none`。
 
 If `$video-use` produced a fine cut, reuse cached transcript/SRT/timestamp artifacts only when they match the final edited video. If they were generated from the raw source or from an earlier preview, regenerate or normalize timing artifacts from the final edited video before packaging design.
@@ -124,6 +126,10 @@ If the user provides an already-edited video, still run the selected transcripti
 Save the normalized bundle as `timing/<video-name>-packaging-timing.json` or `packaging-timing-<video-name>.json`, then pass this bundle to `$video-use`. `$video-use` must design packaging from the bundle instead of ad hoc transcript, SRT, or EDL paths.
 
 将归一化后的时间包保存为 `timing/<video-name>-packaging-timing.json` 或 `packaging-timing-<video-name>.json`，然后交给 `$video-use`。`$video-use` 必须基于这个时间包做包装方案，不要临时拼接零散的转写、SRT 或 EDL 路径。
+
+All packaging animations must be triggered by subtitle keyword cue points. Prefer exact word-level keyword start times from `word_timestamps_path`. If only segment-level Whisper timing is available, estimate the keyword trigger inside the matching subtitle segment by text position and nearby silence/speech energy, then mark the cue confidence as estimated. Do not trigger effects only from evenly divided scene times or generic segment start times unless the segment has no usable keyword; in that case write `triggerKeyword: none` and explain why.
+
+所有包装动效都必须按字幕关键词落点触发。优先使用 `word_timestamps_path` 中精确的词级关键词开始时间。如果只有 Whisper 分段时间，则根据关键词在字幕文本中的位置和附近静默/语音能量，在对应字幕段内估算触发点，并把 cue 置信度标记为 estimated。不要只按均分场景时间或泛泛的段落开始时间触发动效；除非该段没有可用关键词，此时必须写 `triggerKeyword: none` 并说明原因。
 
 ## Workflow / 流程
 
@@ -279,6 +285,7 @@ The design draft must include, for every animation segment:
 每一段动效设计稿都必须包含：
 
 - Time node: start and end time.
+- Trigger keyword cue: exact subtitle keyword, cue time, timing source, and confidence.
 - On-screen text: exact visible words, keywords, cards, labels, or captions.
 - Animation effect: entrance, hold/idle, emphasis, exit or handoff.
 - Motion details: direction, speed feel, easing, stagger, highlight timing.
@@ -290,6 +297,7 @@ The design draft must include, for every animation segment:
 - Quality risk: state whether this segment may block face, mouth, subtitles, become too dense, or suffer font fallback.
 
 - 时间节点：开始和结束时间。
+- 触发关键词落点：准确的字幕关键词、cue 时间、时间来源和置信度。
 - 画面文字：屏幕上实际出现的文字、关键词、卡片、标签或字幕。
 - 动画效果：入场、待机、重点强调、退场或交接。
 - 运动细节：方向、速度感、缓动、错峰、重点高亮时间。
@@ -308,6 +316,7 @@ The packaging motion design draft must use this exact Markdown block format. Do 
 包装动效方案
 
 0.00-1.55s
+触发关键词：GPT 5.6 @ 0.34s，source=word_timestamps，confidence=exact
 画面文字：GPT 5.6、发布
 动效：左上角模式标题卡从左滑入，GPT 5.6 关键词轻微 pop，发布 标签短促点亮后收起。
 运动：ease-out，关键元素错峰进入；如无独立运动细节，写“同动效描述”。
@@ -318,6 +327,7 @@ The packaging motion design draft must use this exact Markdown block format. Do 
 质量风险：注意不要变成整句大字；标题卡不得压到脸部或字幕区。
 
 1.55-3.20s
+触发关键词：推理模式 @ 1.82s，source=word_timestamps，confidence=exact
 画面文字：2 种推理模式
 动效：两枚模式芯片从标题卡下方 stagger 弹出，先显示空芯片，再填入 Max / Ultra 轮廓。
 运动：ease-out，芯片间 4 帧错峰，边框青色脉冲一次。
@@ -328,9 +338,9 @@ The packaging motion design draft must use this exact Markdown block format. Do 
 质量风险：两枚芯片不要同时遮挡人物手势；边框发光不能过曝。
 ```
 
-Each segment must start with a precise `start-end` time range and must include `画面文字`、`动效`、`运动`、`布局`、`已应用的风格约束`、`字体`、`组件`、`质量风险`. If a segment has no visible overlay, write `画面文字：无` and explain why no overlay should appear. The visible text must be short and concrete; do not use full transcript sentences as on-screen overlay text unless the user explicitly requests it.
+Each segment must start with a precise `start-end` time range and must include `触发关键词`、`画面文字`、`动效`、`运动`、`布局`、`已应用的风格约束`、`字体`、`组件`、`质量风险`. If a segment has no visible overlay, write `画面文字：无` and explain why no overlay should appear. The visible text must be short and concrete; do not use full transcript sentences as on-screen overlay text unless the user explicitly requests it.
 
-每个段落必须以精确的 `开始-结束` 时间范围开头，并且必须包含 `画面文字`、`动效`、`运动`、`布局`、`已应用的风格约束`、`字体`、`组件`、`质量风险`。如果某段不应出现包装元素，写 `画面文字：无` 并说明不出现动效的原因。画面文字必须短而具体；除非用户明确要求，不要把完整口播句子直接作为包装大字。
+每个段落必须以精确的 `开始-结束` 时间范围开头，并且必须包含 `触发关键词`、`画面文字`、`动效`、`运动`、`布局`、`已应用的风格约束`、`字体`、`组件`、`质量风险`。如果某段不应出现包装元素，写 `画面文字：无` 并说明不出现动效的原因。画面文字必须短而具体；除非用户明确要求，不要把完整口播句子直接作为包装大字。
 
 Present the draft to the user and wait for approval. Do not implement Remotion before approval.
 
@@ -349,6 +359,7 @@ Implementation requirements:
 - Use Remotion for composition structure, video placement, timeline, Studio, and export.
 - Use GSAP for animation easing/timeline calculations or element motion logic.
 - Use the approved packaging plan as the source of truth.
+- Drive overlay entrances, highlights, bounces, clicks, card collisions, and exits from the approved subtitle keyword cue times. Convert cue seconds to Remotion frames and use those frames as animation anchors.
 - Use `references/visual-quality-system.md` as the implementation quality bar for typography, components, hierarchy, spacing, and motion polish.
 - Keep video and audio aligned to the edited video.
 - Keep overlays outside face/mouth and subtitle-safe zones unless the approved plan explicitly says otherwise.
@@ -360,6 +371,7 @@ Implementation requirements:
 - 用 Remotion 负责合成结构、视频放置、时间线、Studio 和导出。
 - 用 GSAP 负责动画缓动、时间线计算或元素运动逻辑。
 - 以用户确认的包装方案为唯一实现依据。
+- 按已确认方案中的字幕关键词落点驱动包装元素入场、高亮、弹跳、点击、卡片碰撞和退场。将 cue 秒数转换成 Remotion 帧，并以这些帧作为动画锚点。
 - 使用 `references/visual-quality-system.md` 作为字体、组件、层级、间距和动效质感的实现质量标准。
 - 保持视频与音频和剪辑后视频对齐。
 - 除非方案明确允许，否则包装元素必须避开脸部、嘴部和字幕安全区。
@@ -394,6 +406,7 @@ Prefer explicit artifacts:
 
 - `packaging-plan-<video-name>.md` for the approved motion design.
 - `timing/<video-name>-packaging-timing.json` or `packaging-timing-<video-name>.json` for the normalized packaging timing bundle.
+- `timing/<video-name>-keyword-cues.json` for subtitle keyword cue points used by packaging animations.
 - `subtitles/<video-name>.srt` for optional SRT.
 - `remotion-packaging/` or `<video-name>-remotion-packaging/` for the Remotion project.
 - `final/` or `exports/` only after the final export confirmation.
@@ -421,6 +434,7 @@ Never skip these gates:
 - Do not stop after fine-cut verification without telling the user the next packaging action.
 - Do not skip the packaging timing bundle after fine-cut or user-provided edited-video handoff.
 - Do not treat user-provided SRT as word-level keyword timing unless it is accompanied by verified word-level timestamps.
+- Do not trigger every animation from generic scene starts, equal time slices, or hand-picked decorative timings; use subtitle keyword cue points.
 - Do not ignore reference image(s) when the user provides them as the custom style source; extract a style brief first.
 - Do not silently switch from Remotion + GSAP to another tool when setup is inconvenient.
 - Do not overwrite the original or edited source video.
@@ -433,6 +447,7 @@ Never skip these gates:
 - 不要在精剪检查完成后停住而不告诉用户下一步包装动作。
 - 精剪或用户提供成片交接后，不要跳过包装时间包。
 - 不要把用户提供的 SRT 当作词级关键词时间，除非同时有已验证的词级时间戳。
+- 不要用泛泛的场景开始时间、均分时间片或手选装饰时间触发所有动效；必须使用字幕关键词落点。
 - 用户提供参考图片作为自定义风格来源时，不要忽略图片；必须先提取风格 brief。
 - 不要因为环境麻烦就偷偷换掉 Remotion + GSAP。
 - 不要覆盖原始视频或剪辑后源视频。
