@@ -87,6 +87,44 @@ If the user does not choose ElevenLabs:
 3. 默认输出独立 SRT；除非用户明确要求，否则不烧录字幕。
 4. 包装设计以 Whisper 转写文本和时间戳作为时间依据。如果没有词级时间戳，用分段时间戳配合静默检测，避免明显的剪辑或动效对齐错误。
 
+## Packaging Timing Bundle / 包装时间包
+
+Before any packaging design, normalize the final edited video, subtitles, transcript, timestamps, and edit decisions into one packaging timing bundle. This rule applies whether the video came from a `$video-use` fine cut or from an already-edited video provided by the user.
+
+进入任何包装设计前，必须把最终剪辑视频、字幕、转写文本、时间戳和剪辑决策统一整理成一个包装时间包。无论视频来自 `$video-use` 精剪，还是用户直接提供的剪辑成片，都适用这条规则。
+
+The bundle must include:
+
+时间包必须包含：
+
+- `edited_video_path`: the final edited video used for packaging.
+- `srt_path`: independent SRT path. Generate one by default and do not burn subtitles into the video.
+- `transcript_text` or `transcript_path`: transcript text matched to the final edited video.
+- `transcription_provider`: `elevenlabs` or `whisper`.
+- `word_timestamps_path`: required when ElevenLabs is selected, unless the user provided a verified equivalent word-level timestamp file.
+- `segment_timestamps_path`: required when Whisper is selected. If the local Whisper tool can produce word-level timestamps, include that file too, but still mark the provider as `whisper`.
+- `edl_path`: edit decision file when available. If the user provided an already-edited video and no EDL exists, set this to `none`.
+
+- `edited_video_path`：用于包装的最终剪辑视频。
+- `srt_path`：独立 SRT 路径。默认生成，不烧录进视频。
+- `transcript_text` 或 `transcript_path`：与最终剪辑视频匹配的转写文本。
+- `transcription_provider`：`elevenlabs` 或 `whisper`。
+- `word_timestamps_path`：选择 ElevenLabs 时必须提供，除非用户已经提供可验证的等效词级时间戳文件。
+- `segment_timestamps_path`：选择 Whisper 时必须提供。如果本地 Whisper 工具能产出词级时间戳，也一并保留，但 provider 仍标记为 `whisper`。
+- `edl_path`：有剪辑决策文件时填写；如果用户提供的是已经剪辑好的视频且没有 EDL，写 `none`。
+
+If `$video-use` produced a fine cut, reuse cached transcript/SRT/timestamp artifacts only when they match the final edited video. If they were generated from the raw source or from an earlier preview, regenerate or normalize timing artifacts from the final edited video before packaging design.
+
+如果 `$video-use` 产出了精剪成片，只有在缓存的转写、SRT、时间戳产物与最终剪辑视频一致时才复用。若这些产物来自原始素材或早期预览版本，进入包装设计前必须基于最终剪辑视频重新生成或归一化时间产物。
+
+If the user provides an already-edited video, still run the selected transcription path before packaging design unless the user provides both a usable SRT and verified word-level timestamps. A user-provided SRT can be used as subtitle text and base timing, but it is not a replacement for word-level keyword timing. When ElevenLabs is selected and upload consent is granted, run ElevenLabs on the edited video to get word-level timestamps for keyword animation. If the user refuses external upload, use Whisper and mark the bundle as segment-level timing unless local word-level timing is available.
+
+如果用户提供的是已经剪辑好的视频，进入包装设计前仍要按已选择的转写方案生成时间产物，除非用户同时提供可用 SRT 和已验证的词级时间戳。用户上传的 SRT 可以作为字幕文本和基础时间，但不能替代关键词动画所需的词级时间。若用户选择 ElevenLabs 且同意上传音频，应对剪辑成片运行 ElevenLabs，拿到关键词动效用的词级时间戳。若用户拒绝外部上传，则使用 Whisper，并在时间包中标记为分段级时间；本地工具能产出词级时间时再补充词级文件。
+
+Save the normalized bundle as `timing/<video-name>-packaging-timing.json` or `packaging-timing-<video-name>.json`, then pass this bundle to `$video-use`. `$video-use` must design packaging from the bundle instead of ad hoc transcript, SRT, or EDL paths.
+
+将归一化后的时间包保存为 `timing/<video-name>-packaging-timing.json` 或 `packaging-timing-<video-name>.json`，然后交给 `$video-use`。`$video-use` 必须基于这个时间包做包装方案，不要临时拼接零散的转写、SRT 或 EDL 路径。
+
 ## Workflow / 流程
 
 ### 1. Ask Transcription Method / 询问转写方式
@@ -190,6 +228,10 @@ If the user already selected a style earlier, skip the style question and ask fo
 
 如果用户前面已经确认过风格，不要重复询问风格；直接询问是否基于剪辑后视频、转写/SRT、EDL、已选风格和关键词动效参考生成包装动效设计稿。
 
+Before asking for packaging approval, create or update the packaging timing bundle from the final fine-cut video. The next-step handoff should refer to this bundle rather than separate transcript, SRT, and EDL files.
+
+询问是否进入包装方案前，先基于最终精剪视频创建或更新时间包。下一步交接时应引用这个时间包，而不是零散引用转写、SRT 和 EDL 文件。
+
 ### 3. Ask About Custom Style / 询问是否自定义风格
 
 After receiving the edited video, ask whether the user wants a custom visual style.
@@ -224,9 +266,9 @@ Use `$video-use` to analyze the edited video and align visual packaging to the t
 
 使用 `$video-use` 分析剪辑后的视频，并把视觉包装与字幕/文案内容对齐。此步骤不得渲染、不得修改、不得覆盖原视频。
 
-The main agent's role in this step is to prepare inputs for `$video-use`, including the edited video path, transcript artifacts, `edl.json`, source or master SRT when available, selected style Markdown or extracted image-style brief, `references/visual-quality-system.md`, and the keyword-animation reference. `$video-use` must return the packaging motion design draft. The main agent may summarize or relay that draft to the user, but must not replace it with a self-authored packaging plan.
+The main agent's role in this step is to prepare inputs for `$video-use`, including the packaging timing bundle, selected style Markdown or extracted image-style brief, `references/visual-quality-system.md`, and the keyword-animation reference. Verify that the bundle exists and points to the final edited video before asking `$video-use` for a plan. `$video-use` must return the packaging motion design draft. The main agent may summarize or relay that draft to the user, but must not replace it with a self-authored packaging plan.
 
-此步骤中，主 Agent 的职责是为 `$video-use` 准备输入，包括剪辑后视频路径、转写产物、`edl.json`、可用的源字幕或 `master.srt`、已选择的风格 Markdown 或图片风格提取 brief、`references/visual-quality-system.md`，以及关键词动效参考。包装动效设计稿必须由 `$video-use` 返回。主 Agent 可以整理或转述该设计稿给用户，但不得用自己另写的包装方案替代它。
+此步骤中，主 Agent 的职责是为 `$video-use` 准备输入，包括包装时间包、已选择的风格 Markdown 或图片风格提取 brief、`references/visual-quality-system.md`，以及关键词动效参考。请求 `$video-use` 出方案前，必须确认时间包存在，并且指向最终剪辑视频。包装动效设计稿必须由 `$video-use` 返回。主 Agent 可以整理或转述该设计稿给用户，但不得用自己另写的包装方案替代它。
 
 Before drafting the packaging plan, read `references/visual-quality-system.md` and `references/keyword-animation-effects.md`. Use the visual quality system for typography, components, hierarchy, color, safety, and QA constraints; use the keyword animation library to choose or combine suitable keyword, card, mouse, collision, drag, snapping, checklist, and loading effects according to subtitle meaning.
 
@@ -351,6 +393,7 @@ Prefer explicit artifacts:
 推荐产出命名清晰的文件：
 
 - `packaging-plan-<video-name>.md` for the approved motion design.
+- `timing/<video-name>-packaging-timing.json` or `packaging-timing-<video-name>.json` for the normalized packaging timing bundle.
 - `subtitles/<video-name>.srt` for optional SRT.
 - `remotion-packaging/` or `<video-name>-remotion-packaging/` for the Remotion project.
 - `final/` or `exports/` only after the final export confirmation.
@@ -376,6 +419,8 @@ Never skip these gates:
 - Do not burn subtitles by default.
 - Do not generate whole-video playback progress bars as decorative HUD.
 - Do not stop after fine-cut verification without telling the user the next packaging action.
+- Do not skip the packaging timing bundle after fine-cut or user-provided edited-video handoff.
+- Do not treat user-provided SRT as word-level keyword timing unless it is accompanied by verified word-level timestamps.
 - Do not ignore reference image(s) when the user provides them as the custom style source; extract a style brief first.
 - Do not silently switch from Remotion + GSAP to another tool when setup is inconvenient.
 - Do not overwrite the original or edited source video.
@@ -386,6 +431,8 @@ Never skip these gates:
 - 默认不要烧录字幕。
 - 不要把整条视频播放进度条当作装饰性 HUD 生成。
 - 不要在精剪检查完成后停住而不告诉用户下一步包装动作。
+- 精剪或用户提供成片交接后，不要跳过包装时间包。
+- 不要把用户提供的 SRT 当作词级关键词时间，除非同时有已验证的词级时间戳。
 - 用户提供参考图片作为自定义风格来源时，不要忽略图片；必须先提取风格 brief。
 - 不要因为环境麻烦就偷偷换掉 Remotion + GSAP。
 - 不要覆盖原始视频或剪辑后源视频。
