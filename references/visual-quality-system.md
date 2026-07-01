@@ -10,6 +10,7 @@
 3. 一条视频只允许 1 个主视觉方向、1 套字体组合、1-2 个强调色和 3-5 个组件类型。
 4. 任何包装方案都必须写明：字体、字重、字号区间、组件类型、颜色、层级、安全区和退场方式。
 5. Remotion 实现后必须做截图验收；发现字体 fallback、遮挡脸嘴、文字过大或卡片过密，要先修正再让用户看。
+6. 如果用户没有提供更强的自定义风格，默认从 `card-style-library.md` 的已启用风格中选择合适卡片变体。
 
 ## 字体系统 / Typography System
 
@@ -56,6 +57,14 @@
 | `ComparisonCard` | 左右两卡或前后翻转 | 旧认知 vs 新结论 | 碰撞、翻转、擦除替换 |
 | `MouseClickCallout` | 鼠标指针 + 点击光圈 + 高亮 | 操作演示、按钮、prompt | 移动、点击、光圈 6-10 帧 |
 | `MagnetFlow` | 标签吸附 + 连线节点 | 工作流、Agent、自动化链路 | 错峰飞入、磁吸、连线生长 |
+| `PremiumHudStatusCard` | 玻璃卡片 + 语义色描边 + 图标容器 + 英文标签 + 中文关键词 | 合规/不合规、问题/解决、旧方案/新方案 | 边框先亮，图标 pop，文字错峰进入 |
+| `PremiumComparisonPair` | 左右两张高级 HUD 卡 + 中间箭头光线 | 对比、纠错、方案升级 | 旧卡暗下去，箭头绘制，新卡点亮 |
+| `CodexAgentPackagePanel` | 左上 HUD 标题 + 角框大标题 + 三宫格能力卡 / 命令面板 / 工作流双卡 | AI 能力总览、Agent 工作流升级、视频生成链路 | 竖条生长，标题裁切揭示，能力卡错峰弹入，短箭头/连线带循环光晕点 |
+| `HolographicGlassPanel` | 全息玻璃卡 + 双层蓝紫描边 + 状态 chip | prompt、命令、AI task、生成状态 | 角标绘制，面板滑入，chip pop，mono 打字 |
+| `KineticStickerCard` | 深色贴纸卡 + 粗白描边 + 圆形主图标；不生成顶部/角落编号小方块 | 点击、拖拽、hook、修正动作 | 弹跳入场，点击光圈，拖拽标签 |
+| `IsometricWorkflowModule` | 2.5D 模块卡 + 侧边厚度 + 发光连线 | Agent、自动化链路、步骤流转 | 模块错峰飞入，连线绘制，当前节点点亮 |
+| `SoftClayNeumorphicCard` | 柔和 2.5D 圆角卡 + 凸起/内凹按钮 + 软阴影 | 友好教程、步骤提示、轻量设置 | 轻弹上浮，soft press，tile 磁吸 |
+| `GlitchTerminalCard` | 终端卡 + 非对称框线 + 状态 LED + 命令短句 | 错误、修复、CLI、任务状态 | 4-8 帧 glitch，状态 chip 贴入，完成态点亮 |
 
 组件半径优先 6-12px。除非参考风格明确要求，不要使用大圆角胶囊做所有卡片。
 
@@ -67,6 +76,12 @@
 - 卡片底：深蓝黑或黑色半透明，透明度 60%-88%。
 - 描边：1-2px，发光只在边缘出现，不要大面积糊光。
 - 禁止整屏渐变光斑、全屏扫光、顶部/底部整条视频进度条。
+
+### 高级卡片材质 / Premium Card Material
+
+默认卡片不要做成单层扁平矩形。参考 `card-style-library.md`，根据已启用风格明确卡片材质、描边、内外光影、字体和内容层。合规/正确用绿色，错误/不合规用红色，重点/hook 用蓝色，提醒/时间用灰白。发光只服务边框和图标，不要大面积糊光。
+
+By default, cards must not be single-layer flat rectangles. Follow `card-style-library.md`: choose an active style and specify material, border, inner/outer lighting, typography, and content layers. Use green for compliant/correct, red for non-compliant/error, blue for emphasis/hook, and gray-white for time/reminders. Glow should support borders and icons only, not become a large blurry blob.
 
 ## 布局与安全区 / Layout and Safe Zones
 
@@ -84,6 +99,7 @@
 - 退场：120-240ms，淡出或轻微位移，不做强转场闪烁。
 - 错峰：同组元素间隔 3-8 帧，帮助观众分辨顺序。
 - 任何抖动最多 2-3 次；不能让整条视频长期抖动。
+- 高级 HUD 卡片入场拆成边框、主体、图标、文字 4 个错峰步骤，不要整卡一次性淡入。
 
 ## 包装方案必须包含 / Required In Packaging Plans
 
@@ -105,3 +121,4 @@
 5. 没有整条视频的顶部/底部全局进度条。
 6. 动效段落覆盖每个有意义句子或节奏点，而不是只做第一句。
 7. Studio 预览不渲染导出，等用户确认后再导出。
+8. 卡片不是扁平纯色矩形；至少能看到玻璃质感、内外光影、语义色描边和明确字体层级。
