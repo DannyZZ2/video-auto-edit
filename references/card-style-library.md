@@ -18,38 +18,38 @@ This library stores reusable text-based style rules only and does not depend on 
 3. 所有动效仍按字幕关键词落点触发。
 4. 所有卡片必须避开脸部、嘴部和字幕安全区。
 5. 风格图只是方向参考，最终必须用 Remotion + GSAP 可复刻的 div、CSS、SVG、clip-path、box-shadow、transform 实现。
-6. `Premium Tech HUD` 是基础默认风格；当前启用 6 种扩展风格。
+6. `Neon Analytics HUD` 是基础默认风格；当前启用 6 种扩展风格。
 
 1. Choose styles according to subtitle meaning; do not mix styles randomly.
 2. Use at most one primary style plus one supporting style per video.
 3. Trigger all animations from subtitle keyword cue points.
 4. Keep all cards outside face, mouth, and subtitle-safe zones.
 5. Reference images are visual direction only; final implementation must be reproducible with Remotion + GSAP using divs, CSS, SVG, clip-path, box-shadow, and transforms.
-6. `Premium Tech HUD` is the base default style; six extension styles are active.
+6. `Neon Analytics HUD` is the base default style; six extension styles are active.
 
 ## Active Styles / 已启用风格（共 7 种）
 
-### Base. Premium Tech HUD / 基础高级科技 HUD
+### Base. Neon Analytics HUD / 默认霓虹数据分析 HUD
 
 适合：
 
-- AI 工具、prompt、命令、任务状态、产品功能解释。
-- 需要“高级、冷静、科技感”的片段。
-- 合规/不合规、问题/解决、旧方法/新方法等状态对比。
+- AI 工具讲解、视频诊断、流量评分、合规检查、关键词替换、Agent 流程报告。
+- 需要“像 AI 正在分析内容”的默认包装片段。
+- 口播每句话都要用对应图表或卡片解释，而不是只弹一个普通词卡。
 
 视觉结构：
 
-- 黑色或深蓝黑半透明玻璃主卡。
-- 外层 1px-1.5px 语义霓虹描边。
-- 内层暗色渐变、柔和内阴影、边缘高光。
-- 左侧线性 SVG 图标容器 + 英文大写标签 + 中文粗体关键词。
-- 语义色：错误/不合规用红色，正确/合规用绿色，重点/hook 用蓝色，提醒/时间用灰白。
+- 深色背景或压暗实拍画面上叠加数据分析 HUD。
+- 左上角固定风格章节标题：蓝色发光竖线 + 英文大写标签 + 中文副标题。
+- 组件优先使用 AI 报告面板、雷达评分图、关键词光环、合规检查表、最小改动替换卡、环形评分表、分流连线图、终端步骤面板、纵向自动化报告。
+- 卡片是暗玻璃面板，1px-2px 蓝色/语义色描边，边缘弱发光，内部有清晰行列、图标和短标签。
+- 语义色：蓝色为主视觉，绿色表示正确/完成，红色表示错误/违规，黄色表示分数/风险/重点。
 
 字体：
 
 ```text
-英文 HUD 标签：Inter Black / DIN Condensed / Bebas Neue，ALL CAPS，letter-spacing 0.10em-0.18em，18-28px。
-中文关键词：Source Han Sans Heavy / HarmonyOS Sans SC Black / PingFang SC Heavy，42-76px，line-height 0.92-1.05。
+英文 HUD 标签：DIN Condensed / Avenir Next Condensed / Bebas Neue / Inter Black，ALL CAPS，letter-spacing 0.12em-0.22em，18-30px。
+中文关键词：Source Han Sans Heavy / HarmonyOS Sans SC Black / PingFang SC Heavy，38-76px，line-height 0.92-1.05。
 辅助说明：PingFang SC Semibold / Inter SemiBold，22-32px，line-height 1.18-1.32。
 代码或命令：JetBrains Mono / SF Mono，22-30px。
 ```
@@ -57,34 +57,41 @@ This library stores reusable text-based style rules only and does not depend on 
 Remotion 实现：
 
 ```text
-container: backdrop-filter blur(10px-16px), dark translucent gradient
-border: semantic neon 1px-1.5px stroke
-shadow: weak outer glow + inset highlight + bottom/top reflection line
-content: icon container + uppercase label + heavy Chinese keyword
-motion: border draw -> panel slide/perspective -> icon pop -> text stagger-in
+section label: glowing vertical bar + uppercase blue label + Chinese subtitle
+panel: dark glass card + semantic neon stroke + weak outer glow
+chart: radar/gauge/table/branch/terminal built with SVG/CSS primitives
+connector: SVG path with stroke draw + looping soft glow dot
+motion: section label -> panel border draw -> rows/cards/charts by keyword cue
 ```
 
 动效建议：
 
-- `cueFrame - 4`：外描边从 0 opacity 到 1，轻微横向滑入。
-- `cueFrame`：卡片主体从 `scale: 0.96`、`rotateY: -4deg` 到正常状态。
-- `cueFrame + 4`：图标容器 pop，边框短促发光。
-- `cueFrame + 7`：英文标签和中文关键词错峰上移淡入。
-- 待机只做边框 8%-15% 弱呼吸、图标弱脉冲、细微高光扫过。
+- 每句话按关键词选择一个匹配模块：报告、雷达、光环、表格、替换、评分、分流、终端或自动化报告。
+- `cueFrame - 6`：左上 HUD 章节标题先入场，竖线生长。
+- `cueFrame`：主面板边框绘制或图表骨架出现。
+- `cueFrame + 4`：当前关键词对应行/节点/卡片点亮。
+- 连线类动效必须有柔和光晕点沿线循环移动。
+- 待机只做边框弱呼吸、状态点闪烁、光点循环或数字轻微 settle。
 
 组件变体：
 
-- `PremiumHudStatusCard`：合规/不合规、问题/解决。
-- `PremiumKeywordPanel`：单个核心概念、工具名、关键判断。
-- `PremiumComparisonPair`：前后对比、误区纠正、方案升级。
-- `PremiumHookCard`：开头 3 秒、反问、结论。
+- `AiHealthReportPanel`：一份 AI 体检报告，多行分析和建议。
+- `RadarScorePanel`：五维评分雷达图，标签贴外侧顶点。
+- `KeywordAuraRing`：人物后方关键词光环。
+- `ComplianceCheckTable`：违规词到合规词替换表。
+- `MinimalEditSwapCard`：只替换标记词的红绿词卡。
+- `GaugeScorePanel`：环形或半圆评分表。
+- `BranchFlowPanel`：一个源节点分流到多个目标卡。
+- `TerminalStepsPanel`：命令窗口 + 01/02/03 步骤。
+- `AutoReportPipeline`：纵向节点链 + 右侧说明卡。
 
 禁用：
 
-- 不做整屏闪白、整屏扫描光、大面积糊光。
 - 不做顶部/底部全局进度条。
 - 不把卡片做成纯色扁平矩形。
 - 不把完整口播句子作为大字卡片。
+- 不把雷达标签放进图内部；标签应贴在外侧顶点附近。
+- 不让连线光点停在终点，必须沿路径循环运动。
 
 ### 1. Codex Agent Packaging HUD / Codex Agent 分段包装 HUD
 
@@ -325,7 +332,8 @@ chip: ERROR / PATCH / RESOLVED
 
 | 字幕语义 | 推荐风格 |
 |---|---|
-| AI 工具、状态、概念解释 | `Premium Tech HUD`、`Codex Agent Packaging HUD` 或 `Holographic Glass HUD` |
+| AI 工具、状态、概念解释 | `Neon Analytics HUD`、`Codex Agent Packaging HUD` 或 `Holographic Glass HUD` |
+| 视频诊断、体检报告、流量评分、合规检查 | `Neon Analytics HUD` |
 | Agent 工作流升级、视频生成链路、能力总览 | `Codex Agent Packaging HUD` |
 | prompt、命令、任务面板 | `Holographic Glass HUD` |
 | 点击、拖拽、轻松口播、hook 修正 | `Kinetic Sticker Cards` |
@@ -335,7 +343,7 @@ chip: ERROR / PATCH / RESOLVED
 
 ## Shared Quality Checklist / 通用质检
 
-- 是否只使用已启用风格；当前共 7 种：1 种基础默认风格 + 6 种扩展风格。
+- 是否优先使用默认 `Neon Analytics HUD`；当前共 7 种：1 种基础默认风格 + 6 种扩展风格。
 - 是否一条视频最多 1 个主风格 + 1 个辅助风格。
 - 是否按字幕关键词落点触发。
 - 是否避开脸、嘴和字幕安全区。

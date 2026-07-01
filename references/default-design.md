@@ -1,441 +1,254 @@
-# 包装效果 / Packaging Effects
+# 默认包装风格 / Default Packaging Style
 
-## 范围 / Scope
+## 风格名称 / Style Name
 
-本文是一份自包含的文字风格规范，重点记录文字、画面主体、图标、卡片、排版、层级与展现方式，便于后续复刻同类视频封面、片头信息层或讲解型画面包装。使用时不需要额外素材文件。
+**Neon Analytics HUD / 霓虹数据分析 HUD**
 
-This is a self-contained textual style guide covering typography, visual subjects, icons, cards, layout, hierarchy, and presentation effects for later recreation. No additional files are required to use it.
+这是 `$video-auto-edit` 的默认视觉包装风格。它不是普通科技卡片，而是“AI 分析仪表盘 + 语音关键词解释层”：深色实拍或暗色背景上，叠加蓝色 HUD 标题、数据报告面板、雷达图、合规表、替换词卡、分流连线、终端步骤和纵向自动化报告。
 
-## 总体风格 / Overall Style
+This is the default visual packaging style for `$video-auto-edit`: an AI analytics dashboard and spoken-keyword explanation layer over dark footage, using blue HUD titles, report panels, radar charts, compliance tables, replacement chips, branch lines, terminal steps, and vertical automation reports.
 
-整体是“深色视频画面 + 科技 HUD 信息层”的包装语言。背景通常是实拍人物、手机特写或设备截图，前景叠加高对比标题、发光描边卡片、线性图标和少量任务说明。信息层不完全遮挡主体，而是利用画面左侧、顶部、底部或留白区承载说明。
+## 核心气质 / Core Feel
 
-The overall language is a dark video frame with a technology-style HUD overlay. The base layer is usually live footage, a phone close-up, or a device screenshot. The foreground adds high-contrast titles, glowing outline cards, linear icons, and short task descriptions while preserving the main subject.
+- 深色、冷静、专业，像 AI 正在分析视频内容。
+- 信息密度高，但每个模块只解释一个当前关键词。
+- 蓝色是主视觉；绿色表示正确/完成，红色表示错误/违规，黄色表示分数/风险/重点。
+- 卡片、图表和连线都要有轻微发光、暗玻璃底和清晰层级。
+- 不做整条视频顶部/底部全局进度条。
 
-核心视觉关键词：
+- Dark, calm, and analytical, as if an AI system is reading the content.
+- Dense but controlled: each module explains one active spoken keyword.
+- Blue is primary; green means correct/done, red means error/non-compliant, yellow means score/risk/emphasis.
+- Cards, charts, and connectors use subtle glow, dark glass surfaces, and clear hierarchy.
+- Do not generate global top or bottom video progress bars.
 
-Core visual keywords:
+## 默认组件 / Default Components
 
-- 深色、半透明、发光、蓝绿霓虹、科技感、任务流、协同、多屏、AI。
-- Dark, translucent, glowing, cyan/teal neon, technical, task-flow, collaborative, multi-screen, AI.
-
-## 布局模式概览 / Layout Pattern Overview
-
-| 模式 / Pattern | 适用构图 / Composition | 主要包装方式 / Main Packaging Pattern |
-|---|---|---|
-| 协同测试布局 / Co-test layout | 横屏或宽幅讲解画面 | 左侧信息组：顶部标签、主标题、三张小图标卡、底部任务卡。 |
-| 原子工作台布局 / Atomic workspace layout | 横屏产品概念画面 | 大标题压左，底部横向功能卡片组，人物与手机居中偏右。 |
-| 单人到团队布局 / Solo-to-squad layout | 方构图或章节封面 | 中上方流程图标，底部超大对比标题。 |
-| 分屏演示布局 / Split-screen demonstration | 横屏功能演示画面 | 左侧说明面板 + 右侧大屏截图，底部字幕覆盖。 |
-| 生活多任务布局 / Lifestyle multitasking layout | 横屏或竖屏生活场景 | 手机特写做主体，左侧大标题与小功能卡，黄色作为生活化强调色。 |
-
-## 画面结构 / Composition
-
-### 1. 背景层 / Background Layer
-
-背景承担真实场景与可信度：人物讲解、手机实拍、屏幕录制或设备界面。画面整体压暗，并带有轻微冷色或紫红色调，使前景文字和发光组件更容易站出来。
-
-The background provides realism and credibility: presenter footage, phone close-ups, screen recordings, or device UI. It is darkened with a cool or magenta tint so foreground text and glowing elements stand out.
-
-常见处理：
-
-Common treatments:
-
-- 四周有黑色暗角或遮罩，边缘比中心更暗。
-- Black vignette or overlay around the edges, darker than the center.
-- 背景对比度降低，避免与文字抢焦点。
-- Reduced background contrast to keep text dominant.
-- 主体人物或设备保留清晰度，信息层尽量避开脸、手机和关键界面。
-- The subject stays clear, while overlays avoid faces, phones, and important UI.
-- 横屏图多使用左侧信息区 + 右侧主体区；方图使用中心轴对称或上下结构。
-- Landscape frames use left information zones and right subject zones; square frames use centered or vertical structures.
-
-### 2. 信息层 / Information Layer
-
-信息层像视频游戏或操作系统 HUD，不是普通海报排版。它由短标题、英文标签、图标、状态卡片和流程箭头组成，强调“正在执行某个能力”。
-
-The information layer behaves like a game or operating-system HUD rather than a normal poster layout. It uses short titles, English labels, icons, status cards, and flow arrows to show a capability in action.
-
-信息层通常分为三档：
-
-Information hierarchy usually has three levels:
-
-- 一级：大中文标题，如“原子工作台”“一部手机，一支队伍”“想兼顾的，真正兼顾”。
-- Level 1: Large Chinese headline, such as "原子工作台", "一部手机，一支队伍", or "想兼顾的，真正兼顾".
-- 二级：英文大写副标题，如 `ATOMIC WORKSPACE`、`ONE PHONE · ONE TEAM`、`TRULY JUGGLE IT ALL`。
-- Level 2: Uppercase English subtitle, such as `ATOMIC WORKSPACE`, `ONE PHONE · ONE TEAM`, or `TRULY JUGGLE IT ALL`.
-- 三级：功能标签和卡片说明，如 `PARALLEL`、`MULTI-AI SQUAD`、`MATCH`、`MARKET`。
-- Level 3: Feature labels and card descriptions, such as `PARALLEL`, `MULTI-AI SQUAD`, `MATCH`, and `MARKET`.
-
-## 文字系统 / Typography
-
-### 中文标题 / Chinese Headlines
-
-中文标题使用极粗黑体，字重接近 Heavy 或 Black，主要承担视觉冲击。字形方正、紧凑、无衬线，适合科技产品与短视频封面。
-
-Chinese headlines use very heavy sans-serif type, close to Heavy or Black. The shapes are square, compact, and direct, fitting technology products and video thumbnails.
-
-特征：
-
-Characteristics:
-
-- 字号极大，占画面高度约 15% 到 35%。
-- Very large size, roughly 15% to 35% of frame height.
-- 颜色以纯白为主，关键半句可用青绿或黄色强调。
-- Mostly pure white, with key phrases highlighted in teal/cyan or yellow.
-- 行距紧，通常 0.9 到 1.05 倍字号。
-- Tight line height, usually 0.9 to 1.05 times font size.
-- 标点也参与节奏，例如中文逗号被放大保留。
-- Punctuation is part of the rhythm, such as oversized Chinese commas.
-
-### 英文标签 / English Labels
-
-英文统一使用全大写、宽字距、粗体无衬线，作为科技 HUD 的识别符号。它不承担复杂说明，而是提供英文命名和节奏。
-
-English labels are uppercase, letter-spaced, bold sans-serif. They function as technical HUD identifiers rather than long explanations.
-
-特征：
-
-Characteristics:
-
-- 字距明显拉开，形成模块感和扫描感。
-- Wide tracking creates a modular, scannable feel.
-- 颜色多为电光蓝或青绿，少数场景使用黄色。
-- Usually electric blue or teal, with yellow in lifestyle scenes.
-- 常与圆点、箭头、短竖线搭配，如 `SOLO -> SQUAD · 一人成军`。
-- Often paired with dots, arrows, and vertical ticks, such as `SOLO -> SQUAD · 一人成军`.
-
-### 小字说明 / Small Copy
-
-小字用于补充语义，通常为白色或浅灰色，字重中等偏粗，保证在深色背景上可读。
-
-Small copy adds semantic detail. It is usually white or light gray with medium-bold weight for readability over dark backgrounds.
-
-建议控制：
-
-Recommended controls:
-
-- 每条不超过 12 个中文字符或 3 到 5 个英文词。
-- Keep each line under 12 Chinese characters or 3 to 5 English words.
-- 不写长段落，避免破坏 HUD 的利落感。
-- Avoid paragraphs; long text weakens the HUD style.
-- 小字与标题左对齐，形成清晰边界。
-- Align small copy with the title to create a clear edge.
-
-## 色彩系统 / Color System
-
-主色是高亮电光蓝和青绿色，用来表达 AI、科技、多任务与协同。生活化场景可少量引入黄色，表达多场景、轻松感和利益点转折。
-
-The primary accents are electric blue and teal, expressing AI, technology, multitasking, and collaboration. Lifestyle scenarios may introduce small amounts of yellow for a more approachable tone.
-
-推荐色彩角色：
-
-Recommended color roles:
-
-- 背景遮罩：接近黑色，透明度约 45% 到 75%。
-- Background overlay: near-black at roughly 45% to 75% opacity.
-- 主标题白：用于最大中文标题。
-- Headline white: for the largest Chinese text.
-- 科技蓝：用于英文标签、描边、图标和发光。
-- Tech blue: for English labels, borders, icons, and glow.
-- 青绿色：用于重点关键词、箭头、成功态、协同态。
-- Teal: for key words, arrows, success states, and collaboration states.
-- 黄色：只在生活化或重点转折时使用，不与蓝绿平均分配。
-- Yellow: only for lifestyle emphasis or key contrast, not used evenly with blue/teal.
-
-配色比例建议：
-
-Suggested color ratio:
-
-- 深色背景与遮罩：70% 到 85%。
-- Dark background and overlays: 70% to 85%.
-- 白色文字：10% 到 20%。
-- White text: 10% to 20%.
-- 蓝绿高亮：5% 到 10%。
-- Blue/teal accents: 5% to 10%.
-- 黄色强调：0% 到 5%，仅在需要情绪变化时出现。
-- Yellow emphasis: 0% to 5%, only when the mood needs a shift.
-
-## 卡片系统 / Card System
-
-卡片是半透明深色容器，带细描边和外发光。它们看起来像操作面板，而不是普通内容卡。
-
-Cards are translucent dark containers with thin borders and outer glow. They should feel like operation panels rather than generic content cards.
-
-### 卡片形态 / Card Shape
-
-- 圆角中等，约 12 到 18px，不做过度圆润。
-- Medium radius, around 12 to 18px; avoid over-rounded corners.
-- 背景为黑色或深蓝黑，透明度约 60% 到 85%。
-- Background is black or deep blue-black at around 60% to 85% opacity.
-- 描边 1px 到 2px，使用蓝色或青绿色。
-- Border is 1px to 2px in blue or teal.
-- 外发光弱而清晰，主要强调科技感。
-- Outer glow is restrained but visible, mainly to create a technical feel.
-
-### 卡片布局 / Card Layout
-
-该风格常用三种卡片：
-
-This style commonly uses three card types:
-
-- 小图标卡：正方形，用于并列展示多个 AI、屏幕或角色。
-- Small icon card: square, used to show multiple AIs, screens, or roles.
-- 横向功能卡：图标在左，英文标签在上，中文说明在下。
-- Horizontal feature card: icon on the left, English label above, Chinese description below.
-- 大面板卡：承载多应用、多任务或分屏结构，内部可用细分割线。
-- Large panel card: contains multiple apps, tasks, or split-screen structures, sometimes with internal dividers.
-
-卡片之间保持明确间距，不互相贴边。底部卡片组通常与画面底边保持 7% 到 12% 的安全距离。
-
-Cards need clear spacing and should not touch each other. Bottom card groups usually sit 7% to 12% above the frame edge.
-
-## 图标系统 / Icon System
-
-图标以线性图标为主，造型简单、笔画较粗，匹配英文标签的科技感。图标通常只表达一个概念：分屏、团队、任务、电视、行情、麦克风、应用。
-
-Icons are mostly linear, simple, and moderately thick. They match the technical feel of the uppercase labels. Each icon represents one concept: split screen, team, task, TV, market, microphone, or app.
-
-使用规则：
-
-Usage rules:
-
-- 图标优先使用单色蓝、青绿或黄色，不使用复杂渐变。
-- Prefer single-color blue, teal, or yellow icons; avoid complex gradients.
-- 图标与文字左对齐或居中对齐，不做随意散点装饰。
-- Align icons with text or center them inside cards; avoid random decorative placement.
-- 图标大小要大于普通 UI 图标，接近卡片高度的 30% 到 45%。
-- Icons should be larger than normal UI icons, around 30% to 45% of card height.
-- 应用图标可以保留原始 app 视觉，但需要放进统一面板或截图中。
-- App icons can keep their original visual identity, but should sit inside a unified panel or screenshot.
-
-## 图片与主体 / Imagery and Subject
-
-图片主体不是背景装饰，而是说明场景的一部分。人物、手机、屏幕截图分别对应“讲解者”“工具入口”“实际执行结果”。
-
-The image subject is not decoration; it explains the scene. The presenter, phone, and screen capture map to "speaker", "tool entry", and "execution result".
-
-处理方式：
-
-Treatment:
-
-- 人物图：脸部和手势保留清晰，信息层放在左侧或底部。
-- Presenter footage: keep face and gestures clear; place overlays on the left or bottom.
-- 手机特写：手机作为视觉焦点，标题放在远离手机的位置。
-- Phone close-up: make the phone the focal point; place the title away from it.
-- 屏幕截图：用发光边框框住设备区域，强化“真实操作中”的感觉。
-- Screen capture: wrap the device area with a glowing border to emphasize live operation.
-- 背景虚化或压暗时，主体边缘仍要能被识别。
-- When blurring or darkening the background, keep the subject edge recognizable.
-
-## 布局模式拆解 / Layout Pattern Breakdown
-
-### 模式 1：协同测试布局 / Co-test Layout
-
-左上角用短竖线引出 `CO-TEST · 协同测试`，下面是说明“三个 AI 同时跑同一道题”。左侧中段放主标题和三张图标卡，底部补充具体任务卡 `WASH-SHOP PUZZLE`。画面主体人物在中间偏右，信息层集中在左侧，形成“讲解者 + 功能面板”的结构。
-
-The top-left label starts with a vertical tick and `CO-TEST · 协同测试`, followed by a short explanation. The left middle contains the main title and three icon cards; the lower left adds the task card `WASH-SHOP PUZZLE`. The presenter sits center-right, creating a presenter-plus-control-panel composition.
-
-可复用点：
-
-Reusable points:
-
-- 适合介绍“多对象同时执行同一任务”。
-- Works well for explaining multiple agents executing the same task.
-- 三张并列小卡可以表达“三个 AI”“三个窗口”“三个角色”。
-- Three parallel small cards can represent three AIs, windows, or roles.
-- 底部任务卡用于把抽象能力落到具体场景。
-- The bottom task card grounds an abstract capability in a concrete scenario.
-
-### 模式 2：原子工作台布局 / Atomic Workspace Layout
-
-大中文标题“原子工作台”占据左侧视觉中心，英文 `ATOMIC WORKSPACE` 紧贴标题下方。底部三张横向功能卡展示并行、多 AI 组队、并行/串行切换。人物和手机在中间偏右，标题与卡片都不遮挡手机。
-
-The large Chinese headline "原子工作台" dominates the left side, with `ATOMIC WORKSPACE` directly below. Three horizontal feature cards at the bottom explain parallel tasks, multi-AI squad, and parallel/serial switching. The presenter and phone stay center-right, unobstructed.
-
-可复用点：
-
-Reusable points:
-
-- 适合做产品概念主视觉。
-- Strong fit for a product concept hero frame.
-- 主标题负责冲击，底部卡片负责解释功能。
-- The headline delivers impact; bottom cards explain features.
-- `NEW` 小标签可作为版本感或卖点提醒。
-- A small `NEW` badge can signal versioning or a key selling point.
-
-### 模式 3：单人到团队布局 / Solo to Squad Layout
-
-该模式适合方构图，顶部放方向性标签 `SOLO -> SQUAD`，中间用两个图标卡和箭头表达从单人到团队的转变，底部用超大中文标题完成记忆点：“一部手机，一支队伍”。青绿色只用于“队伍”和箭头，形成强对比。
-
-This square-friendly pattern places `SOLO -> SQUAD` at the top. Two icon cards and an arrow in the middle show the transition from one person to a team. The oversized bottom headline creates the memorable point: "one phone, one team". Teal is reserved for "team" and the arrow.
-
-可复用点：
-
-Reusable points:
-
-- 适合表达状态转变、能力升级、前后对比。
-- Good for state changes, capability upgrades, or before/after contrast.
-- 图标 + 箭头比长句更有解释力。
-- Icons plus arrows explain better than long sentences.
-- 底部超大标题适合短视频封面或章节转场。
-- The oversized bottom headline works for thumbnails or chapter transitions.
-
-### 模式 4：分屏演示布局 / Split Screen Demonstration
-
-画面左侧是深色功能说明面板，右侧是带发光边框的大屏截图。左侧顶部说明“一屏调用 4 个 AI”，中段用语音指令卡和四宫格应用面板表达操作方式。右侧真实截图提供结果证明，底部字幕覆盖说明语音内容。
-
-The left side is a dark functional panel; the right side is a large screen capture with a glowing border. The top-left label explains calling four AIs on one screen. The middle area uses a voice-command card and an app grid to show the operation. The right screenshot proves the result, while subtitles explain the voice prompt.
-
-可复用点：
-
-Reusable points:
-
-- 适合做“功能演示 + 真实界面证明”。
-- Works for feature demonstration plus real UI proof.
-- 左侧抽象说明，右侧展示结果，逻辑清晰。
-- Abstract explanation on the left, concrete result on the right.
-- 大面板内部可使用分割线建立多任务结构。
-- Internal dividers can organize multi-task structures.
-
-### 模式 5：生活多任务布局 / Lifestyle Multitasking Layout
-
-该模式从冷科技切到生活化表达。手机特写占据右侧大面积，左侧大标题使用白色和黄色分层：“想兼顾的，真正兼顾”。英文 `TRULY JUGGLE IT ALL` 使用青绿色，底部小卡分别表达看球和看资讯。黄色让主题更像生活方式，而不是纯技术功能。
-
-This pattern shifts from cold technology to lifestyle messaging. A phone close-up fills the right side. The left headline layers white and yellow: "what you want to juggle, truly juggled". `TRULY JUGGLE IT ALL` uses teal, while small bottom cards represent watching matches and market info. Yellow makes the frame feel lifestyle-oriented rather than purely technical.
-
-可复用点：
-
-Reusable points:
-
-- 适合表达“生活中同时处理多件事”。
-- Good for showing everyday multitasking.
-- 黄色只强调核心利益点，不覆盖所有科技蓝元素。
-- Yellow highlights the core benefit without replacing all tech-blue elements.
-- 小卡片从功能说明转为场景说明。
-- Small cards shift from feature explanation to scenario explanation.
-
-## 排版规则 / Layout Rules
-
-可按以下优先级复刻：
-
-Use the following priorities when recreating the style:
-
-1. 先确定主体位置：人脸、手机或屏幕截图不能被主标题遮挡。
-2. Decide subject placement first: faces, phones, or screenshots must not be covered by the headline.
-3. 选择一个主信息锚点：左上、左中、底部或中下，不要四处平均放元素。
-4. Choose one main information anchor: top-left, left-middle, bottom, or lower-center. Do not distribute elements evenly everywhere.
-5. 大标题只表达一句核心利益点。
-6. The main headline should express one core benefit.
-7. 英文标签负责风格和命名，中文负责解释和情绪。
-8. English labels provide style and naming; Chinese copy provides explanation and emotion.
-9. 卡片组只承载 2 到 4 个功能点，超过 4 个会显得拥挤。
-10. Card groups should contain 2 to 4 feature points; more than 4 feels crowded.
-11. 发光效果只用于描边、图标、英文标签和关键箭头。
-12. Glow should be limited to borders, icons, English labels, and key arrows.
-
-## 元素规格建议 / Element Specs
-
-以下规格用于 1920 x 1080 横屏画面，可按比例缩放：
-
-The following specs target a 1920 x 1080 landscape frame and can be scaled proportionally:
-
-| 元素 / Element | 建议 / Recommendation |
-|---|---|
-| 外边距 / Outer margin | 48 到 80px |
-| 顶部标签 / Top label | 28 到 38px，英文全大写，字距 0.12em 到 0.22em |
-| 主中文标题 / Main Chinese headline | 72 到 150px，Heavy/Black 字重 |
-| 英文副标题 / English subtitle | 30 到 46px，全大写，字距 0.16em 到 0.28em |
-| 卡片圆角 / Card radius | 12 到 18px |
-| 卡片描边 / Card border | 1 到 2px，蓝绿发光 |
-| 小图标 / Small icons | 36 到 72px，线性图标 |
-| 横向功能卡 / Feature card | 高 90 到 120px，宽 220 到 360px |
-| 大面板 / Large panel | 占画面宽度 25% 到 35% |
-| 遮罩 / Overlay | 黑色透明层 45% 到 75% |
-
-## 可复刻模板 / Reusable Templates
-
-### 模板 A：概念主视觉 / Concept Hero
-
-适用于产品能力、版本更新、核心卖点。
-
-For product capabilities, version updates, and core selling points.
+### 1. HUD Section Label / 左上 HUD 章节标题
 
 结构：
 
-Structure:
+- 左侧 3-5px 发光竖线。
+- 英文大写标签，蓝色、宽字距，例如 `WHAT IT DOES`、`TRAFFIC SCORE`、`COMPLIANCE CHECK`。
+- 下方一行中文副标题，白色粗体。
 
-- 左上：短竖线 + 英文标签 + 中文短标签。
-- Top-left: vertical tick + English label + short Chinese label.
-- 左中：超大中文标题 + 英文副标题。
-- Left-middle: oversized Chinese headline + English subtitle.
-- 底部：2 到 3 张横向功能卡。
-- Bottom: 2 to 3 horizontal feature cards.
-- 右侧：人物、手机或产品画面。
-- Right side: presenter, phone, or product footage.
+动效：
 
-### 模板 B：流程转变 / Flow Transition
+- 竖线从 0 高度生长。
+- 英文标签逐字或整体轻微滑入，蓝色弱发光。
+- 中文副标题延迟 3-6 帧淡入。
 
-适用于单人到团队、串行到并行、旧模式到新模式。
+### 2. AI Report Panel / AI 报告面板
 
-For solo-to-team, serial-to-parallel, or old-to-new transformations.
+适用：
 
-结构：
-
-Structure:
-
-- 顶部：状态标题，如 `SOLO -> SQUAD`。
-- Top: state label, such as `SOLO -> SQUAD`.
-- 中部：两个图标卡 + 高亮箭头。
-- Middle: two icon cards + highlighted arrow.
-- 底部：一句超大结果型标题。
-- Bottom: one oversized result-oriented headline.
-
-### 模板 C：功能演示 / Feature Demonstration
-
-适用于真实界面录屏、分屏、多应用运行。
-
-For real UI recordings, split-screen scenes, or multi-app execution.
+- 总结某个工具能做什么。
+- 展示 2-3 个分析结果、建议或指标。
 
 结构：
 
-Structure:
+- 大型深色玻璃面板，1px 蓝色描边，圆角 10-14px。
+- 顶部标题栏：英文报告名 + 中文标题 + 右侧状态点，如 `SCANNING`。
+- 左侧编号模块：1/2/3 圆点 + 线性图标 + 英文标签 + 中文关键词。
+- 右侧用横向条形图、短线条或完成勾展示信息，不写长段落。
 
-- 左侧：深色说明面板，含标题、指令卡、应用图标。
-- Left: dark explanation panel with title, command card, and app icons.
-- 右侧：真实屏幕或设备截图，外加蓝色发光边框。
-- Right: real screen or device capture with blue glowing border.
-- 底部：字幕或一句操作说明。
-- Bottom: subtitles or one operation sentence.
+动效：
 
-### 模板 D：生活场景 / Lifestyle Scenario
+- 面板先从左/下轻滑入并绘制边框。
+- 状态点闪烁 1-2 次后进入弱呼吸。
+- 编号模块按关键词落点逐条进入。
+- 横向条从 0 宽度增长；每条延迟 3-5 帧。
 
-适用于非硬核功能、日常多任务、用户利益点。
+### 3. Radar Score / 雷达评分图
 
-For softer benefits, everyday multitasking, and user-value messaging.
+适用：
+
+- 多维度评分、能力维度、内容诊断。
 
 结构：
 
-Structure:
+- 中心五边形雷达图，外框蓝色发光，内部 3-5 层弱线。
+- 标签卡必须贴在最外侧五边形顶点附近，不放到图内部。
+- 每个标签卡包含线性图标、英文短词和中文短词。
 
-- 背景：手机或生活场景特写。
-- Background: phone or lifestyle close-up.
-- 左侧：白色 + 黄色的大标题。
-- Left: large headline in white plus yellow.
-- 下方：青绿色英文副标题。
-- Below: teal English subtitle.
-- 底部：2 张场景卡片。
-- Bottom: 2 scenario cards.
+动效：
 
-## 注意事项 / Notes
+- 五边形外框先绘制，内部网格依次淡入。
+- 当前维度顶点有一个小光点沿边线循环移动。
+- 标签卡从对应顶点外侧吸附进入。
+- 雷达填充面根据关键词逐点展开。
 
-- 不要把所有元素都做成卡片；卡片用于信息聚合，标题应直接浮在画面上。
-- Do not turn every element into a card; cards group information, while headlines should float directly over the image.
-- 不要让发光过强，强发光会降低文字锐度。
-- Avoid excessive glow; it reduces text sharpness.
-- 不要平均使用蓝、绿、黄三种高亮色；每张图只确定一个主强调色。
-- Do not use blue, green, and yellow evenly; each frame should have one dominant accent.
-- 不要写长文案。该风格依赖短词、短句和图标快速传达。
-- Avoid long copy. This style depends on short phrases, short labels, and icons.
-- 如果背景过亮，先加暗角或局部黑色渐变，再放文字。
-- If the background is too bright, add a vignette or local black gradient before placing text.
+### 4. Keyword Aura / 人物关键词光环
+
+适用：
+
+- 需要围绕人物强调一个核心概念或情绪词。
+
+结构：
+
+- 人物/主体下方保留在底层，文字在主体后方或左右避让，不挡脸和嘴。
+- 主体周围半圆或圆形蓝色刻度环，外圈点状轨道。
+- 中心只放 1 个短关键词，文字必须居中对齐。
+
+动效：
+
+- 光环按弧线绘制，刻度短线错峰出现。
+- 关键词轻微放大进入，随后保持 2%-4% 的弱呼吸。
+- 如果人物在中间，文字层必须放在人物后方或安全侧边。
+
+### 5. Compliance Table / 合规检查表
+
+适用：
+
+- 错误 -> 正确、违规 -> 合规、旧词 -> 新词、问题 -> 修复。
+
+结构：
+
+- 暗色表格面板，顶部列名：类别、严重度、怎么改。
+- 每行左侧是问题项，中间是严重度点，右侧是红色错误词和绿色替换词。
+- 红绿词卡之间用短连接线和箭头，长度根据两个词卡边缘计算。
+
+动效：
+
+- 行按关键词落点进入，不一次性全亮。
+- 红色错误词先出现并轻微震动。
+- 连接线从红卡边缘绘制到绿卡边缘。
+- 连接线上必须有柔和光晕点循环移动，显性表现替换/传输。
+- 绿色替换词在光点到达时 pop 进入。
+
+### 6. Minimal Edit / 最小改动替换卡
+
+适用：
+
+- 只替换关键词、不改变整体语气。
+
+结构：
+
+- 大玻璃面板内放一组短词替换：原词、红色错误词、箭头、绿色新词。
+- 新词必须位于箭头指向的目标位置，不能偏到边缘或底部。
+- 下方可放 1-2 条弱化的保留原则卡片。
+
+动效：
+
+- 原词变暗，红词先贴上。
+- 箭头短促绘制，新词在箭头目标处弹入。
+- 不要让新词卡压到面板边缘。
+
+### 7. Gauge Score / 环形评分表
+
+适用：
+
+- 流量潜力、完成度、风险分、质量分。
+
+结构：
+
+- 半圆或环形粗线仪表盘。
+- 数字居中，例如 `82/100`；中文指标在下方。
+- 底部可放 1-2 个小指标卡。
+
+动效：
+
+- 当数值为 0 时，不显示右侧彩色进度端点。
+- 进度从 0 增长到目标分，末端光晕跟随进度移动。
+- 数字用计数动画增长，末尾轻微 settle。
+
+### 8. Branch Flow / 分流连线图
+
+适用：
+
+- 一个来源分出 2-3 个去向、工具路径、部署方式、内容流转。
+
+结构：
+
+- 左侧源节点卡，右侧三张目标卡。
+- 曲线从源节点边缘连接到每张目标卡左边缘，长度根据目标卡位置和宽度计算。
+- 三条线颜色可为蓝、绿、黄。
+
+动效：
+
+- 源节点先出现，三条路径按关键词逐条绘制。
+- 每条线上都有一个柔和发光点沿曲线循环运动。
+- 光点必须沿线移动，不停在终点。
+- 目标卡在光点接近时点亮。
+
+### 9. Terminal Steps / 终端步骤面板
+
+适用：
+
+- 命令、部署、调用、工具执行步骤。
+
+结构：
+
+- 深色终端窗口，左上红黄绿小点。
+- 顶部命令栏使用短命令，例如 `>_ codex code`。
+- 内部用 01/02/03 步骤，不写长代码块。
+- 每步包含图标、英文动作和中文短词。
+
+动效：
+
+- 命令栏短打字机进入。
+- 步骤逐条亮起，当前步骤边框或图标发光。
+- 不做持续 glitch；只允许 4-6 帧局部抖动作为强调。
+
+### 10. Auto Report / 纵向自动化报告
+
+适用：
+
+- 自动抓取、审查、输出、流水线。
+
+结构：
+
+- 左侧纵向节点链，节点之间用蓝/绿发光线连接。
+- 右侧对应每个节点放横向说明卡。
+- 当前节点亮，其它节点降亮。
+
+动效：
+
+- 节点从上到下依次点亮。
+- 连接线上有柔和光点向下循环移动。
+- 右侧说明卡与节点同步滑入。
+
+## 字体 / Typography
+
+```text
+英文 HUD 标签：DIN Condensed / Avenir Next Condensed / Bebas Neue / Inter Black，ALL CAPS，letter-spacing 0.12em-0.22em。
+中文关键词：Source Han Sans Heavy / HarmonyOS Sans SC Black / PingFang SC Heavy，白色粗体，短词优先。
+卡片正文：PingFang SC Semibold / Source Han Sans Medium，避免长句。
+代码命令：JetBrains Mono / SF Mono / Menlo。
+```
+
+规则：
+
+- 必须显式设置 `fontFamily`，不能依赖默认字体。
+- 中文关键词最多 2 行，每行不超过 8 个字。
+- 英文标签只做识别符，不写完整句子。
+- 字距不能为负值。
+
+## 颜色 / Color
+
+```text
+background: #020812 / #06111f / rgba(0,0,0,0.45-0.68)
+primary blue: #109BFF / #1EA7FF
+cyan: #20E2D2
+green: #2FE36B
+red: #FF4D5B
+yellow: #FFD32A
+white: #F4F8FF
+panel fill: rgba(2, 8, 18, 0.62-0.82)
+```
+
+## 安全区 / Safe Zones
+
+- 人脸、嘴部、手势优先级高于包装元素。
+- 中下方字幕安全区默认不放大卡片。
+- 卡片优先放左侧、右侧或上半区。
+- 如果必须在画面中间做图表，人物必须抠在上层，动画放在人物下方或后方。
+
+## 禁用 / Do Not
+
+- 不生成整条视频的顶部/底部进度条。
+- 不生成大面积扫光、闪白或强转场光效。
+- 不让卡片遮挡脸、嘴、字幕。
+- 不用纯色扁平矩形代替玻璃面板。
+- 不用完整口播句子当大字卡。
+- 不把所有图表一次性全部出现，必须按语音关键词落点触发。

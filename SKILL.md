@@ -245,10 +245,10 @@ After receiving the edited video, ask whether the user wants a custom visual sty
 拿到剪辑好视频后，询问用户是否需要自定义视觉风格。
 
 - If yes: ask the user to upload or point to either a style Markdown file or one or more reference images.
-- If no: use the project/default `DESIGN.md`. If no usable `DESIGN.md` exists, read `references/default-design.md` from this skill and use it as the default visual style brief.
+- If no: use the project/default `DESIGN.md`. If no usable `DESIGN.md` exists, read `references/default-design.md` from this skill and use `Neon Analytics HUD` as the default visual style brief.
 
 - 如果需要：让用户上传或指定风格 Markdown 文件，或上传一张/多张参考图片。
-- 如果不需要：使用项目或默认的 `DESIGN.md`。如果没有可用的 `DESIGN.md`，读取本 skill 的 `references/default-design.md` 作为默认视觉风格简报。
+- 如果不需要：使用项目或默认的 `DESIGN.md`。如果没有可用的 `DESIGN.md`，读取本 skill 的 `references/default-design.md`，并使用 `Neon Analytics HUD / 霓虹数据分析 HUD` 作为默认视觉风格简报。
 
 Read the selected style source before designing packaging. Carry forward hard constraints such as safe zones, colors, typography, and forbidden transitions.
 
@@ -276,9 +276,9 @@ The main agent's role in this step is to prepare inputs for `$video-use`, includ
 
 此步骤中，主 Agent 的职责是为 `$video-use` 准备输入，包括包装时间包、已选择的风格 Markdown 或图片风格提取 brief、`references/visual-quality-system.md`，以及关键词动效参考。请求 `$video-use` 出方案前，必须确认时间包存在，并且指向最终剪辑视频。包装动效设计稿必须由 `$video-use` 返回。主 Agent 可以整理或转述该设计稿给用户，但不得用自己另写的包装方案替代它。
 
-Before drafting the packaging plan, read `references/visual-quality-system.md`, `references/card-style-library.md`, and `references/keyword-animation-effects.md`. Use the visual quality system for typography, components, hierarchy, color, safety, and QA constraints; use the unified card style library to choose from all seven active card styles: Premium Tech HUD, Codex Agent Packaging HUD, Holographic Glass HUD, Kinetic Sticker Cards, Isometric Workflow Modules, Soft Clay Neumorphic Cards, or Glitch Terminal Cards according to subtitle meaning; use the keyword animation library to choose or combine suitable keyword, card, mouse, collision, drag, snapping, checklist, and loading effects according to subtitle meaning.
+Before drafting the packaging plan, read `references/visual-quality-system.md`, `references/card-style-library.md`, and `references/keyword-animation-effects.md`. Use the visual quality system for typography, components, hierarchy, color, safety, and QA constraints; use the unified card style library to choose from all seven active card styles. Default to Neon Analytics HUD unless the user provides another style or the subtitle meaning clearly benefits from a secondary style. Available styles: Neon Analytics HUD, Codex Agent Packaging HUD, Holographic Glass HUD, Kinetic Sticker Cards, Isometric Workflow Modules, Soft Clay Neumorphic Cards, or Glitch Terminal Cards. Use the keyword animation library to choose or combine suitable keyword, card, mouse, collision, drag, snapping, checklist, and loading effects according to subtitle meaning.
 
-设计包装方案前，先读取 `references/visual-quality-system.md`、`references/card-style-library.md` 和 `references/keyword-animation-effects.md`。视觉质量系统用于约束字体、组件、层级、颜色、安全区和验收标准；统一卡片风格库用于根据字幕语义从全部 7 种已启用卡片风格中选择：高级科技 HUD、Codex Agent 分段包装 HUD、全息玻璃 HUD、动感贴纸卡、2.5D 工作流模块、柔和黏土拟物卡、故障终端卡；关键词动效库用于根据字幕语义选择或组合合适的关键词、卡片、鼠标、碰撞、拖拽、吸附、勾选、加载等动效。
+设计包装方案前，先读取 `references/visual-quality-system.md`、`references/card-style-library.md` 和 `references/keyword-animation-effects.md`。视觉质量系统用于约束字体、组件、层级、颜色、安全区和验收标准；统一卡片风格库用于从全部 7 种已启用卡片风格中选择。除非用户提供其它风格，或字幕语义明显适合辅助风格，否则默认使用 `Neon Analytics HUD / 霓虹数据分析 HUD`。可用风格：霓虹数据分析 HUD、Codex Agent 分段包装 HUD、全息玻璃 HUD、动感贴纸卡、2.5D 工作流模块、柔和黏土拟物卡、故障终端卡；关键词动效库用于根据字幕语义选择或组合合适的关键词、卡片、鼠标、碰撞、拖拽、吸附、勾选、加载等动效。
 
 The design draft must include, for every animation segment:
 
@@ -365,7 +365,7 @@ Implementation requirements:
 - Use the approved packaging plan as the source of truth.
 - Drive overlay entrances, highlights, bounces, clicks, card collisions, and exits from the approved subtitle keyword cue times. Convert cue seconds to Remotion frames and use those frames as animation anchors.
 - Use `references/visual-quality-system.md` as the implementation quality bar for typography, components, hierarchy, spacing, and motion polish.
-- Use `references/card-style-library.md` as the unified implementation reference for card material, semantic borders, icon containers, glow restraint, and all seven active card styles: one base default style plus six extension styles.
+- Use `references/card-style-library.md` as the unified implementation reference for card material, semantic borders, icon containers, glow restraint, and all seven active card styles. The base default is `Neon Analytics HUD`; the other six styles are optional secondary styles.
 - Keep video and audio aligned to the edited video.
 - Keep overlays outside face/mouth and subtitle-safe zones unless the approved plan explicitly says otherwise.
 - Explicitly set `fontFamily`, weight, size, line height, and fallback for every text component; do not rely on browser default fonts.
@@ -378,7 +378,7 @@ Implementation requirements:
 - 以用户确认的包装方案为唯一实现依据。
 - 按已确认方案中的字幕关键词落点驱动包装元素入场、高亮、弹跳、点击、卡片碰撞和退场。将 cue 秒数转换成 Remotion 帧，并以这些帧作为动画锚点。
 - 使用 `references/visual-quality-system.md` 作为字体、组件、层级、间距和动效质感的实现质量标准。
-- 使用 `references/card-style-library.md` 作为统一实现参考，约束卡片材质、语义描边、图标容器、克制发光和全部 7 种已启用卡片风格：1 种基础默认风格 + 6 种扩展风格。
+- 使用 `references/card-style-library.md` 作为统一实现参考，约束卡片材质、语义描边、图标容器、克制发光和全部 7 种已启用卡片风格。基础默认风格是 `Neon Analytics HUD / 霓虹数据分析 HUD`，其它 6 种作为可选辅助风格。
 - 保持视频与音频和剪辑后视频对齐。
 - 除非方案明确允许，否则包装元素必须避开脸部、嘴部和字幕安全区。
 - 每个文字组件都必须显式设置 `fontFamily`、字重、字号、行高和 fallback；不要依赖浏览器默认字体。
@@ -390,9 +390,35 @@ If dependencies are missing, install only what is needed for this stack, such as
 
 如果依赖缺失，只安装这个技术栈必需的依赖，例如 `remotion`、`@remotion/cli`、`react`、`react-dom`、`typescript`、`gsap`。不要把 Remotion + GSAP 替换成 HyperFrames、普通 HTML、PIL、Manim 或其它动画系统，除非用户明确改需求。
 
-Run a TypeScript or build check when available. Before opening Remotion Studio, capture at least one preview screenshot and check typography, face/mouth safety, subtitle safety, card density, glow intensity, material layering, semantic border color, and global-progress-bar violations. Fix clear issues before showing Studio. Then open Remotion Studio and give the user the local Studio URL.
+Run a TypeScript or build check when available.
 
-如果项目支持，运行 TypeScript 或构建检查。打开 Remotion Studio 前，至少截取一张预览图，并检查字体、脸部/嘴部安全、字幕安全、卡片密度、发光强度、材质层次、语义描边颜色和全局进度条违规；发现明确问题先修正，再打开 Studio 并把本地 Studio 地址给用户。
+如果项目支持，运行 TypeScript 或构建检查。
+
+#### Silent Remotion Studio QA / Remotion Studio 静默自检
+
+Before opening Remotion Studio, run this silent QA even when the user says "do not render" or "open Studio only." This QA renders still frames only; it must not export the full video.
+
+打开 Remotion Studio 前，即使用户说“不渲染”或“只打开 Studio”，也必须先做下面的静默自检。此自检只渲染静帧，不得导出完整视频。
+
+Required checks:
+
+必须检查：
+
+1. Run the available project checks, such as `npm run typecheck`, `npm run build`, or `npm run compositions`.
+2. Capture still frames with `remotion still` at a minimum of 3 key moments: one early overlay moment, one middle keyword/card moment, and one late/risk or payoff moment. Prefer 5 frames when the composition has many timed keyword cues.
+3. Inspect the stills before showing Studio. Confirm that the frame is not blank, the base video is visible, the packaging layer is above the video, and at least one expected overlay is visible at each sampled cue time.
+4. Verify subtitle keyword timing: an overlay tied to a keyword must be absent before its cue and visible at or just after its cue. If exact pre/post frame checks are too expensive, check at least the cue frame and one nearby later frame.
+5. Check typography, face/mouth safety, subtitle safety, card density, glow intensity, material layering, semantic border color, and global-progress-bar violations.
+6. If any sampled frame is blank, missing overlays, hidden behind video, off-canvas, blocking the face/mouth, or showing the wrong keyword timing, fix the issue and rerun the relevant still checks before opening Studio.
+7. Only after silent QA passes, open Remotion Studio and give the user the local Studio URL. Summarize only pass/fail and key fixes; do not require the user to manually discover basic visibility bugs.
+
+1. 运行项目可用检查，例如 `npm run typecheck`、`npm run build` 或 `npm run compositions`。
+2. 用 `remotion still` 抽取至少 3 个关键静帧：一个早期包装出现点、一个中段关键词/卡片点、一个后段风险或 payoff 点。若合成里有很多关键词 cue，优先抽 5 帧。
+3. 打开 Studio 前先检查这些静帧。确认画面不是空白、底层视频可见、包装层在视频上方，并且每个抽样 cue 时间点至少有一个预期包装元素可见。
+4. 检查字幕关键词时间：绑定关键词的包装元素在 cue 前应不可见，在 cue 当帧或稍后应可见。如果逐个前后帧成本太高，至少检查 cue 帧和一个稍后的邻近帧。
+5. 检查字体、脸部/嘴部安全、字幕安全、卡片密度、发光强度、材质层次、语义描边颜色和全局进度条违规。
+6. 如果任何抽样帧空白、包装缺失、被视频盖住、跑到画面外、挡脸/挡嘴，或关键词时间错误，先修复并重新跑相关静帧检查，再打开 Studio。
+7. 静默自检通过后，才打开 Remotion Studio 并给用户本地 Studio URL。只向用户总结通过/失败和关键修复点；不要让用户手动发现基础可见性问题。
 
 ### 6. Export Only After Final Approval / 最终确认后才导出
 
