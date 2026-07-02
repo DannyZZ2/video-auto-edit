@@ -62,6 +62,7 @@
 | `HolographicGlassPanel` | 深色玻璃主卡 + 青紫双层描边 + 状态 chip + mono 短命令 | prompt、命令、AI task、生成状态、工具面板 | 角标绘制，面板滑入，chip pop，mono 打字 |
 | `FrostedGlassPanel` | 清透毛玻璃卡 + 浅色边缘光 + 图标容器 + 短标题 | 口播侧卡、focus、身份条、功能摘要 | 侧滑/弹入，一次扫光，图标文字错峰，轻微待机漂浮 |
 | `ReferenceHudInfoPanel` | 左上标题系统 + 深色玻璃面板 + SVG 图表/表格/路径 | 报告、评分、合规、流程、终端步骤 | 面板描边绘制，行/图表错峰，连线光晕点循环 |
+| `GitHubRepoCard` | GitHub 图标 + owner/repo + 功能说明 + visibility badge + 语言占比条 | GitHub 仓库、开源项目、repo、代码项目、工具仓库 | 卡片滑入，repo 高亮，badge pop，语言占比条依次增长 |
 
 组件半径优先 10-24px。除非参考风格明确要求，不要把所有卡片都做成大圆角胶囊。
 
@@ -99,6 +100,8 @@ By default, cards must not be single-layer flat rectangles. Follow `card-style-l
 - 包装元素应在当前句子结束后退场，避免堆积。
 - 用户提供的图片、logo、UI 截图、透明 PNG、图标、贴纸或元素图，若名称/标签/可见文字匹配字幕关键词，优先作为该关键词的包装元素展示。
 - 素材展示必须保留原始比例，并按画面安全区限制最大尺寸；不拉伸、不裁掉关键信息，不把小图强行放成大海报。
+- 当参考图或素材文件名包含 `github`，或图中出现 GitHub 标识、`owner / repo`、Public/Private badge、语言占比条时，优先解析为 `GitHubRepoCard`，展示用户名、项目名、项目功能和语言占比。
+- `GitHubRepoCard` 的语言条只表示仓库语言占比，不得做成整条视频进度条；语言颜色应贴近 GitHub 语义色，最多显示 3-4 种语言。
 - 画面中有指、拖、划、圈选或画线手势时，素材或动画优先贴近指尖、路径终点或划线路径出现，但必须偏移 16-48px 避免盖住手部。
 - 手势锚点和脸部/嘴部/字幕安全区冲突时，优先保护脸、嘴和字幕，把素材移动到最近的安全邻近区域，并在方案中说明偏移。
 - 没有可靠手势位置时，不要猜测手势锚点；回到左侧、右侧或上半区的常规布局。

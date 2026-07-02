@@ -199,6 +199,7 @@ motion: header reveal -> panel draw -> rows/cards/charts by keyword cue -> conne
 | `HolographicGlassPanel` | prompt、命令、AI task、生成状态 | 深色玻璃主卡 + 青紫双层描边 + 状态 chip + mono 短命令 | 角标绘制，面板滑入，chip pop，mono 打字 |
 | `FrostedGlassPanel` | focus、身份条、功能摘要、侧边提示 | 清透毛玻璃卡 + 浅色渐变边缘光 + 图标容器 + 短标题 | 侧滑/弹入，一次扫光，图标文字错峰，轻微待机漂浮 |
 | `ReferenceHudInfoPanel` | 报告、评分、合规、流程、终端步骤 | 左上标题系统 + 深色玻璃面板 + SVG 图表/表格/路径 | 面板描边绘制，行/图表错峰，连线光晕点循环 |
+| `GitHubRepoCard` | GitHub 仓库、repo、开源项目、代码项目 | GitHub 图标 + owner/repo + 功能说明 + visibility badge + 语言占比条 | 卡片滑入，repo 语义色高亮，badge pop，语言条 scaleX 增长 |
 
 ## Remotion Implementation / Remotion 实现
 

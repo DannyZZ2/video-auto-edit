@@ -272,9 +272,17 @@ If the user provides reference image(s), inspect the image(s) first and extract 
 
 如果用户提供参考图片，必须先观察图片并提取精简风格 brief，再进入包装设计。提取出的 brief 必须包含：布局模式、卡片形状和描边样式、字体气质、配色、发光/阴影处理、图标元素、信息密度、安全区影响、动效假设，以及哪些元素如果会挡脸、挡嘴或挡字幕就不要照搬。
 
+If a reference image file name contains `github`, or the image visibly contains a GitHub mark, repository path, `owner / repo` pattern, public/private badge, or language bar, extract a GitHub repository card pattern from it. The extracted pattern must include: user/organization name, project name, project function, visibility badge when visible, language list with percentages when visible, and the card's visual treatment. When a later subtitle keyword or user-provided asset matches `github`, `repo`, `仓库`, `项目`, `开源`, a repository name, or a tool name from that card, generate a `GitHubRepoCard` instead of a generic card.
+
+如果参考图片文件名包含 `github`，或图片中明显出现 GitHub 标识、仓库路径、`用户名 / 项目名` 结构、Public/Private 标记、语言占比条等信息，必须从中提取 GitHub 项目卡片模式。提取内容必须包括：用户名/组织名、项目名、项目功能、可见的公开/私有标记、可见的语言列表和占比，以及卡片视觉处理方式。后续字幕关键词或用户素材匹配到 `github`、`repo`、`仓库`、`项目`、`开源`、仓库名或卡片中的工具名时，优先生成 `GitHubRepoCard`，不要退化成普通卡片。
+
 If the user provides content assets, build an asset manifest before packaging design. For images, inspect the file name, dimensions, alpha channel/transparent background, rough subject, and any visible text. Add inferred aliases such as simplified Chinese keywords, English tool names, product names, and filename tokens. Do not treat these assets as style references unless the user explicitly says so.
 
 如果用户提供内容素材，进入包装设计前必须建立素材清单。对图片检查文件名、尺寸、透明通道/透明背景、主体内容和可见文字。补充推断别名，例如中文关键词、英文工具名、产品名和文件名分词。除非用户明确说明，否则不要把这些素材当作风格参考图。
+
+When a content asset file name contains `github`, inspect it for repository-card data as well. If it contains enough information, add a `githubRepoCard` entry to the asset manifest with `owner`, `repo`, `function`, `visibility`, `languages`, `languagePercents`, `matchedKeywords`, and `sourceImage`.
+
+当内容素材文件名包含 `github` 时，也要检查它是否包含项目卡片信息。如果信息足够，在素材清单中加入 `githubRepoCard` 条目，字段包括 `owner`、`repo`、`function`、`visibility`、`languages`、`languagePercents`、`matchedKeywords` 和 `sourceImage`。
 
 After reading a style Markdown or extracting a brief from reference image(s), pass the hard constraints and visual direction into `$video-use` as part of the packaging-design brief. If no stronger custom style is provided, pass `references/card-style-library.md` as the unified default card-polish and material-quality reference. If content assets are provided, pass the asset manifest and matching rule as part of the same brief. The packaging plan must be designed by `$video-use` from the edited video, transcript text, EDL, SRT/timestamps, selected style Markdown or extracted image-style brief, asset manifest, gesture cues, card style library, and keyword-animation reference together. The main agent must not bypass `$video-use` and draft the packaging plan by itself.
 
@@ -366,11 +374,25 @@ The packaging motion design draft must use this exact Markdown block format. Do 
 字体：Inter ExtraBold / PingFang SC Semibold，28-36px，line-height 1.18。
 组件：RemotionModularCard / KeywordChip。
 质量风险：两枚芯片不要同时遮挡人物手势；边框发光不能过曝。
+
+3.20-4.60s
+触发关键词：开源仓库 @ 3.42s，source=word_timestamps，confidence=exact
+画面文字：code-wahaha / traffic-compass、抖音发布前、AI 合规自查 + 流量潜力评分、Python 68%、HTML 22%、CSS 10%
+动效：GitHub 项目卡片从手势指向侧滑入，owner 白色、repo 语义绿色高亮，Public badge 弹出，语言占比条从左到右增长。
+运动：ease-out，卡片入场 10 帧，项目名 4 帧后高亮，语言条 14 帧内依次增长。
+布局：放在人物指向位置附近或右侧安全区，不挡脸、嘴、字幕；语言条保持在卡片底部。
+卡片材质：深色半透明卡片 + 绿色语义描边 + GitHub 线性图标 + 弱外发光 + 内阴影。
+匹配素材：assets/github-traffic-compass.png，source=filename+visible-text，confidence=exact；解析为 GitHubRepoCard。
+手势锚点：pointing/right-drag @ right-safe-zone，confidence=estimated；卡片放在指尖终点外侧 32px。
+已应用的风格约束：使用参考图中的深色卡片、owner/repo 标题结构、Public badge 和语言占比条；不复制会挡脸的大尺寸。
+字体：Inter Black / Source Han Sans Heavy，title 34-44px，meta 22-28px，mono/language 20-26px。
+组件：GitHubRepoCard。
+质量风险：语言条不能做成整条视频进度条；只表示项目语言占比。
 ```
 
-Each segment must start with a precise `start-end` time range and must include `触发关键词`、`画面文字`、`动效`、`运动`、`布局`、`卡片材质`、`匹配素材`、`手势锚点`、`已应用的风格约束`、`字体`、`组件`、`质量风险`. If a segment has no visible overlay, write `画面文字：无` and explain why no overlay should appear. The visible text must be short and concrete; do not use full transcript sentences as on-screen overlay text unless the user explicitly requests it. If a matching asset exists, the plan must either use it or explicitly explain why it is not used.
+Each segment must start with a precise `start-end` time range and must include `触发关键词`、`画面文字`、`动效`、`运动`、`布局`、`卡片材质`、`匹配素材`、`手势锚点`、`已应用的风格约束`、`字体`、`组件`、`质量风险`. If a segment has no visible overlay, write `画面文字：无` and explain why no overlay should appear. The visible text must be short and concrete; do not use full transcript sentences as on-screen overlay text unless the user explicitly requests it. If a matching asset exists, the plan must either use it or explicitly explain why it is not used. If a GitHub repository reference image or asset matches the cue, use `GitHubRepoCard` and include owner, project name, project function, and languages.
 
-每个段落必须以精确的 `开始-结束` 时间范围开头，并且必须包含 `触发关键词`、`画面文字`、`动效`、`运动`、`布局`、`卡片材质`、`匹配素材`、`手势锚点`、`已应用的风格约束`、`字体`、`组件`、`质量风险`。如果某段不应出现包装元素，写 `画面文字：无` 并说明不出现动效的原因。画面文字必须短而具体；除非用户明确要求，不要把完整口播句子直接作为包装大字。如果存在匹配素材，方案必须使用它，或明确说明为什么不用。
+每个段落必须以精确的 `开始-结束` 时间范围开头，并且必须包含 `触发关键词`、`画面文字`、`动效`、`运动`、`布局`、`卡片材质`、`匹配素材`、`手势锚点`、`已应用的风格约束`、`字体`、`组件`、`质量风险`。如果某段不应出现包装元素，写 `画面文字：无` 并说明不出现动效的原因。画面文字必须短而具体；除非用户明确要求，不要把完整口播句子直接作为包装大字。如果存在匹配素材，方案必须使用它，或明确说明为什么不用。如果 GitHub 仓库参考图或素材匹配到当前 cue，必须使用 `GitHubRepoCard`，并包含用户名、项目名、项目功能和语言。
 
 Present the draft to the user and wait for approval. Do not implement Remotion before approval.
 
@@ -391,6 +413,7 @@ Implementation requirements:
 - Use the approved packaging plan as the source of truth.
 - Drive overlay entrances, highlights, bounces, clicks, card collisions, and exits from the approved subtitle keyword cue times. Convert cue seconds to Remotion frames and use those frames as animation anchors.
 - When the approved plan includes a matched asset, import or copy that image/element into the Remotion project asset folder and display it at the approved keyword cue. Preserve aspect ratio, clamp max size to the safe area, and use the approved style's card/frame treatment when needed.
+- When the approved plan includes `GitHubRepoCard`, implement it with text and vector/CSS elements rather than using the reference image as a flat bitmap unless the user explicitly asks for screenshot reuse. The card must expose editable fields for owner, repo, function, visibility, languages, and language percentages.
 - When the approved plan includes a gesture anchor, place the matched asset or animation at the gesture-derived region first, then apply the recorded safety offset. Do not recenter it into a generic layout unless gesture placement would block the face, mouth, subtitles, or key hand motion.
 - Use `references/visual-quality-system.md` as the implementation quality bar for typography, components, hierarchy, spacing, and motion polish.
 - Use `references/card-style-library.md` as the unified implementation reference for the selected built-in or custom style. Default to `Remotion Native Material Cards`; use optional built-in styles only when explicitly selected in the approved plan.
@@ -406,6 +429,7 @@ Implementation requirements:
 - 以用户确认的包装方案为唯一实现依据。
 - 按已确认方案中的字幕关键词落点驱动包装元素入场、高亮、弹跳、点击、卡片碰撞和退场。将 cue 秒数转换成 Remotion 帧，并以这些帧作为动画锚点。
 - 当确认方案包含匹配素材时，把该图片/元素导入或复制到 Remotion 项目素材目录，并在对应关键词 cue 展示。保持原始比例，把最大尺寸限制在安全区内，必要时套用已选风格的卡片/边框处理。
+- 当确认方案包含 `GitHubRepoCard` 时，优先用文字和矢量/CSS 元素实现，不要把参考图直接当作扁平截图贴上去，除非用户明确要求复用截图。卡片必须暴露可编辑字段：用户名、项目名、项目功能、公开/私有标记、语言和语言占比。
 - 当确认方案包含手势锚点时，优先把匹配素材或动画放到手势推导区域，再应用记录的安全偏移。除非手势位置会挡脸、挡嘴、挡字幕或关键手部动作，否则不要改成通用居中布局。
 - 使用 `references/visual-quality-system.md` 作为字体、组件、层级、间距和动效质感的实现质量标准。
 - 使用 `references/card-style-library.md` 作为已选内置或自定义风格的统一实现参考。默认使用 `Remotion Native Material Cards / Remotion 原生材质卡片`；只有在确认方案明确选择时才使用可选内置风格。
