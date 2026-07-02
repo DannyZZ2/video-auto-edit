@@ -41,32 +41,32 @@ Recommended question sequence:
 
 推荐询问顺序：
 
-1. Ask: "是否使用 ElevenLabs 转写？"
-2. If yes, ask upload consent. After consent, ask for API-key availability. If no, proceed with Whisper without asking more unless local setup is missing.
+1. Ask: "是否需要使用 ElevenLabs 转写？"
+2. If yes, ask upload consent. After consent, create or locate the local ignored env/config file and open it for the user to fill `ELEVENLABS_API_KEY`. If no, default to Whisper without asking more unless local setup is missing.
 3. Ask: "是否需要剪辑？"
-4. If yes, ask for the source video folder. After receiving it, ask normal edit or fine cut. If no, ask for the already-edited video file.
+4. If yes, ask for the source video folder, then run the fine-cut plan by default. If no, ask for the already-edited video file.
 5. After a final video exists, ask: "是否需要自定义包装风格？"
 6. If yes, ask for one style source type: Markdown or reference image. Then ask for the file/path. If no, use the default style.
-7. Generate the packaging design draft and ask for approval.
+7. Before packaging design, build the timing bundle, asset manifest, and gesture cues. Then generate the packaging design draft and ask for approval.
 
-1. 先问：“是否使用 ElevenLabs 转写？”
-2. 如果使用，再问是否同意上传音频；同意后再问 API key 是否可用。如果不使用，直接走 Whisper，除非本地环境缺失才继续询问。
+1. 先问：“是否需要使用 ElevenLabs 转写？”
+2. 如果使用，再问是否同意上传音频；同意后创建或定位本地已忽略的 env/config 文件，并打开让用户填写 `ELEVENLABS_API_KEY`。如果不使用，默认直接走 Whisper，除非本地环境缺失才继续询问。
 3. 再问：“是否需要剪辑？”
-4. 如果需要，先问源视频文件夹；拿到文件夹后再问默认剪辑还是精剪。如果不需要，只问剪辑好的视频文件。
+4. 如果需要，先问源视频文件夹，然后默认直接执行精剪方案。如果不需要，只问剪辑好的视频文件。
 5. 拿到最终视频后，再问：“是否需要自定义包装风格？”
 6. 如果需要，再问风格来源类型：Markdown 或参考图片；然后再要对应文件/路径。如果不需要，直接使用默认风格。
-7. 生成包装动效设计稿后，再让用户确认。
+7. 包装设计前先生成时间包、素材清单和手势 cue，再生成包装动效设计稿并让用户确认。
 
 Required companion skills:
 
 - Use the installed `$video-use` skill for video analysis, cutting, SRT handling, and packaging-plan design. If `$video-use` is not installed or cannot be loaded, bootstrap it automatically before continuing.
-- Ask the user whether to use ElevenLabs for transcription. Use ElevenLabs only after the user chooses it and provides an API key; otherwise use Whisper-compatible local transcription.
+- Ask the user only whether ElevenLabs transcription is needed. Use ElevenLabs only after the user opts in, consents to audio upload, and fills the API key in a local ignored env/config file opened for them. Otherwise default to Whisper-compatible local transcription.
 - Use Remotion + GSAP for the animation implementation after the user approves the packaging design.
 
 必要关联技能：
 
 - 使用已安装的 `$video-use` skill 做视频分析、剪辑、SRT 处理和包装方案设计。如果 `$video-use` 未安装或无法加载，先自动自举安装后再继续。
-- 先询问用户是否使用 ElevenLabs 进行转写。只有用户选择 ElevenLabs 并提供 API key 后才使用；否则使用 Whisper 兼容的本地转写方案。
+- 只询问用户是否需要使用 ElevenLabs 转写。只有用户主动选择、同意上传音频，并在打开的本地已忽略 env/config 文件里填写 API key 后才使用 ElevenLabs；否则默认使用 Whisper 兼容的本地转写方案。
 - 用户确认包装设计后，用 Remotion + GSAP 实现动画包装。
 
 ## Dependency Bootstrap / 依赖自举
@@ -84,42 +84,42 @@ After installation:
 安装后：
 
 - Read the installed `video-use/install.md` only for general setup and the transcription option selected by the user.
-- Install or request only hard requirements that cannot be skipped, such as `ffmpeg`, `ffprobe`, Python dependencies, a Whisper-compatible transcription tool, or an ElevenLabs API key when the user chooses ElevenLabs.
+- Install or request only hard requirements that cannot be skipped, such as `ffmpeg`, `ffprobe`, Python dependencies, a Whisper-compatible transcription tool, or a local ignored env/config file for `ELEVENLABS_API_KEY` when the user opts into ElevenLabs.
 - Do not echo or log ElevenLabs API keys. Never commit `.env`.
 - If the current Codex session cannot dynamically load the newly installed skill, read the installed `video-use/SKILL.md` directly for this session and tell the user to restart Codex after the current workflow to pick up the skill normally.
 - If GitHub access, network, package manager permissions, Whisper setup, or ElevenLabs key validation fails, explain the exact missing requirement and ask the user only for that one unblocker.
 
 - 读取已安装的 `video-use/install.md` 时，只参考通用安装步骤和用户选择的转写方案。
-- 只安装或索取不能跳过的硬依赖，例如 `ffmpeg`、`ffprobe`、Python 依赖、Whisper 兼容转写工具，或用户选择 ElevenLabs 时需要的 API key。
+- 只安装或索取不能跳过的硬依赖，例如 `ffmpeg`、`ffprobe`、Python 依赖、Whisper 兼容转写工具，或用户选择 ElevenLabs 时用于填写 `ELEVENLABS_API_KEY` 的本地已忽略 env/config 文件。
 - 不回显、不记录 ElevenLabs API key；不要提交 `.env`。
 - 如果当前 Codex 会话不能动态加载新安装的 skill，本轮直接读取已安装的 `video-use/SKILL.md` 使用，并提醒用户当前流程结束后重启 Codex，以便后续正常识别。
 - 如果 GitHub 访问、网络、包管理器权限、Whisper 安装或 ElevenLabs key 校验失败，只说明当前缺少的具体条件，并只向用户索取这一项阻塞信息。
 
-## Transcription Choice / 转写选择
+## Transcription Opt-In / 转写启用
 
-Before any transcription, editing analysis, SRT generation, or packaging timing work, ask the user whether to use ElevenLabs.
+Before any transcription, editing analysis, SRT generation, or packaging timing work, ask only whether the user needs ElevenLabs transcription. Do not present Whisper as a choice. Whisper is the default when the user does not opt into ElevenLabs.
 
-在任何转写、剪辑分析、SRT 生成或包装时间轴设计之前，先询问用户是否使用 ElevenLabs。
+在任何转写、剪辑分析、SRT 生成或包装时间轴设计之前，只询问用户是否需要使用 ElevenLabs 转写。不要把 Whisper 作为一个需要选择的选项展示出来；用户不启用 ElevenLabs 时，默认直接使用 Whisper。
 
 If the user chooses ElevenLabs:
 
 如果用户选择 ElevenLabs：
 
 1. Tell the user that ElevenLabs transcription uploads the video's audio to an external ElevenLabs service, then ask only for explicit consent to upload the audio.
-2. After consent is confirmed, ask the user to provide an ElevenLabs API key or confirm that `ELEVENLABS_API_KEY` is already available in the environment.
+2. After consent is confirmed, create or locate the local ignored env/config file used by the workflow, open it for the user, and ask the user to fill `ELEVENLABS_API_KEY` there. Do not ask the user to paste the API key into chat.
 3. Use ElevenLabs/Scribe transcription with word-level timestamps only after both consent and API-key availability are confirmed.
 4. Use word-level timestamps as the preferred source for cut boundaries, SRT timing, keyword animation timing, and subtitle-aligned packaging.
 5. Keep the key out of logs and code. If it must be persisted for helper compatibility, store it only in the local tool's ignored `.env` file with restrictive permissions.
 
 1. 告知用户 ElevenLabs 转写会把视频音频上传到外部 ElevenLabs 服务，然后只询问是否同意上传音频。
-2. 用户确认同意后，再让用户提供 ElevenLabs API key，或确认环境变量 `ELEVENLABS_API_KEY` 已经可用。
+2. 用户确认同意后，创建或定位该流程使用的本地已忽略 env/config 文件，打开文件让用户在里面填写 `ELEVENLABS_API_KEY`。不要让用户把 API key 粘贴到聊天里。
 3. 只有在用户同意上传且 API key 可用后，才使用 ElevenLabs/Scribe 转写和词级时间戳。
 4. 优先用词级时间戳作为剪辑边界、SRT 时间、关键词动画时间和字幕对齐包装的依据。
 5. 不把 key 写入日志或代码。如果为了 helper 兼容必须持久化，只能写入本地工具被忽略的 `.env`，并设置严格权限。
 
-If the user does not choose ElevenLabs:
+If the user does not need ElevenLabs:
 
-如果用户不选择 ElevenLabs：
+如果用户不需要 ElevenLabs：
 
 1. Use an existing `whisper`, `faster-whisper`, `mlx-whisper`, or equivalent local Whisper command if available.
 2. If no Whisper tool is available, install a Whisper-compatible option locally for the project environment, then transcribe.
@@ -150,7 +150,7 @@ The bundle must include:
 - `keyword_cues_path`: required for packaging. It must list each selected subtitle keyword, its subtitle line, trigger time, timing source, and confidence.
 - `edl_path`: edit decision file when available. If the user provided an already-edited video and no EDL exists, set this to `none`.
 - `asset_manifest_path`: required by default for packaging. Build it from the current Codex project/workspace files, plus any extra asset paths explicitly provided by the user. Do not scan the uploaded video's source folder or parent directory for assets unless the user explicitly designates that folder as an asset source. The manifest must list each asset path, source root, filename stem, filename-token aliases, dimensions, transparency, and suggested use. Do not OCR, classify, or infer meaning from the asset image content for matching.
-- `gesture_cues_path`: optional but required when gesture placement is requested or detectable. It must list pointing, dragging, swiping, circling, drawing, or line-marking gestures with time range, hand/gesture position, direction, target area, and confidence.
+- `gesture_cues_path`: required before packaging design when the video contains detectable pointing, dragging, swiping, circling, drawing, or line-marking gestures, or when the user requests gesture-aware placement. It must list each gesture's time range, hand/gesture position, direction, target area, and confidence.
 
 - `edited_video_path`：用于包装的最终剪辑视频。
 - `srt_path`：独立 SRT 路径。默认生成，不烧录进视频。
@@ -161,7 +161,7 @@ The bundle must include:
 - `keyword_cues_path`：包装阶段必须提供。它要列出每个选中的字幕关键词、所属字幕行、触发时间、时间来源和置信度。
 - `edl_path`：有剪辑决策文件时填写；如果用户提供的是已经剪辑好的视频且没有 EDL，写 `none`。
 - `asset_manifest_path`：默认必须生成。素材来源是当前 Codex 项目/工作区文件，以及用户明确额外指定的素材路径。不要自动扫描用户上传视频所在的素材文件夹或父目录，除非用户明确把该目录指定为素材来源。清单要列出每个素材路径、来源根目录、文件名主干、文件名分词别名、尺寸、是否透明和建议用途。匹配时不要 OCR、不要分类、不要根据素材图片内容推断含义。
-- `gesture_cues_path`：可选；但当用户要求或画面中可检测到手势位置时必须提供。它要列出指、拖、划、圈选、画线等手势的时间范围、手部/手势位置、方向、目标区域和置信度。
+- `gesture_cues_path`：进入包装设计前生成；当视频中存在可检测的指、拖、划、圈选、画线等手势，或用户要求手势感知放置时必须提供。它要列出每个手势的时间范围、手部/手势位置、方向、目标区域和置信度。
 
 If `$video-use` produced a fine cut, reuse cached transcript/SRT/timestamp artifacts only when they match the final edited video. If they were generated from the raw source or from an earlier preview, regenerate or normalize timing artifacts from the final edited video before packaging design.
 
@@ -183,23 +183,23 @@ By default, search the current Codex project/workspace for packaging assets befo
 
 默认在当前 Codex 项目/工作区中搜索包装素材，再进入包装设计。纳入 `.png`、`.jpg`、`.jpeg`、`.webp`、`.svg`、`.gif`、`.json` 动画数据和命名清晰的素材目录。排除 `node_modules`、`.git`、`dist`、`build`、`.next`、`out`、`exports`、渲染输出目录等依赖/构建/缓存目录。不要因为视频来自某个文件夹，就自动扫描用户上传视频所在的项目/素材文件夹。只用素材文件名、文件名主干、路径片段名称和文件名分词别名与字幕关键词做精确匹配和模糊匹配。不要理解图片内容，不要 OCR 可见文字，不要根据图片主体类别做匹配。若素材名称与字幕关键词或短语相同或语义相近，在该关键词落点展示这个素材，除非会挡脸、挡嘴、挡字幕或破坏已确认风格。多个素材都匹配时，选择文件名最具体的那个，并记录原因。没有文件名匹配素材时，继续使用生成卡片。
 
-When a pointing, dragging, swiping, circling, drawing-line, or line-marking gesture is detected near an asset or animation cue, use the gesture position as the preferred placement anchor. Place the image or animation near the fingertip/gesture path endpoint or along the drawn path, offset enough to keep the hand and face visible. If gesture placement conflicts with face/mouth/subtitle safety, choose the nearest safe adjacent zone and record the offset decision.
+Before packaging design, inspect the final video for pointing, dragging, swiping, circling, drawing-line, or line-marking gestures and write the results into `gesture_cues_path`. Pass those gesture cues into `$video-use` together with subtitle keyword cues and the asset manifest. When a gesture is detected near an asset or animation cue, use the gesture position as the preferred placement anchor. Place the image or animation near the fingertip/gesture path endpoint or along the drawn path, offset enough to keep the hand and face visible. If gesture placement conflicts with face/mouth/subtitle safety, choose the nearest safe adjacent zone and record the offset decision.
 
-当画面中在素材或动效 cue 附近检测到指、拖、划、圈选、画线等手势时，优先把手势位置作为放置锚点。图片或动画应出现在指尖、手势路径终点附近，或沿着画线路径出现，并保留足够偏移避免挡手和脸。如果手势位置与脸、嘴或字幕安全区冲突，选择最近的安全邻近区域，并记录偏移原因。
+进入包装设计前，必须先检查最终视频中是否有指、拖、划、圈选、画线等手势，并把结果写入 `gesture_cues_path`。将这些手势 cue 与字幕关键词 cue、素材清单一起交给 `$video-use`。当素材或动效 cue 附近检测到手势时，优先把手势位置作为放置锚点。图片或动画应出现在指尖、手势路径终点附近，或沿着画线路径出现，并保留足够偏移避免挡手和脸。如果手势位置与脸、嘴或字幕安全区冲突，选择最近的安全邻近区域，并记录偏移原因。
 
 ## Workflow / 流程
 
-### 1. Ask Transcription Method / 询问转写方式
+### 1. Ask Whether ElevenLabs Is Needed / 询问是否需要 ElevenLabs
 
-Start by asking whether the user wants to use ElevenLabs for transcription.
+Start by asking whether the user needs ElevenLabs transcription. Do not ask the user to choose between ElevenLabs and Whisper.
 
-首先询问用户是否使用 ElevenLabs 进行转写。
+首先询问用户是否需要使用 ElevenLabs 转写。不要让用户在 ElevenLabs 和 Whisper 之间二选一。
 
-- If yes: tell the user that the video's audio will be uploaded to the external ElevenLabs service, then ask only for explicit upload consent. After consent is confirmed, ask for an ElevenLabs API key or confirmation that `ELEVENLABS_API_KEY` is already available in the environment. Use ElevenLabs/Scribe word-level timestamps only after consent and key availability are confirmed.
-- If no: use Whisper-compatible local transcription.
+- If yes: tell the user that the video's audio will be uploaded to the external ElevenLabs service, then ask only for explicit upload consent. After consent is confirmed, create or locate the local ignored env/config file used by the workflow, open it for the user, and ask the user to fill `ELEVENLABS_API_KEY` there. Use ElevenLabs/Scribe word-level timestamps only after consent and key availability are confirmed.
+- If no: default to Whisper-compatible local transcription without asking another transcription-choice question.
 
-- 如果使用：告知用户视频音频会上传到外部 ElevenLabs 服务，然后只询问是否同意上传。用户确认同意后，再让用户提供 ElevenLabs API key，或确认环境变量 `ELEVENLABS_API_KEY` 已可用。只有同意上传且 key 可用后，才使用 ElevenLabs/Scribe 的词级时间戳。
-- 如果不使用：使用 Whisper 兼容的本地转写方案。
+- 如果需要：告知用户视频音频会上传到外部 ElevenLabs 服务，然后只询问是否同意上传。用户确认同意后，创建或定位该流程使用的本地已忽略 env/config 文件，打开文件让用户在里面填写 `ELEVENLABS_API_KEY`。只有同意上传且 key 可用后，才使用 ElevenLabs/Scribe 的词级时间戳。
+- 如果不需要：默认使用 Whisper 兼容的本地转写方案，不再追问转写方式。
 
 Keep this choice for the full workflow, including editing analysis, SRT generation, packaging timing, and keyword animation timing.
 
@@ -211,10 +211,10 @@ Start by asking whether the user needs the raw footage edited.
 
 先问用户是否需要对原始素材进行剪辑。
 
-- If yes: ask only for the source video folder. After receiving the folder, ask one separate question about whether to use the normal edit plan or the fine-cut plan below. Then invoke `$video-use` to inspect, transcribe, propose an edit strategy, wait for confirmation, and produce the edited video or edit preview according to `video-use` rules.
+- If yes: ask only for the source video folder, then use the fine-cut plan below by default. Do not ask whether to use a normal edit plan. Invoke `$video-use` to inspect, transcribe, propose the fine-cut strategy, wait for confirmation when required by `video-use`, and produce the edited video or edit preview according to `video-use` rules.
 - If no: ask the user to provide the already-edited video file.
 
-- 如果需要：只先让用户提供需要剪辑的视频文件夹。拿到文件夹后，再单独询问使用“默认剪辑方案”还是下面的“精剪方案”。然后调用 `$video-use` 检查素材、转写、提出剪辑策略、等待确认，并按 `video-use` 规则产出剪辑版本或预览。
+- 如果需要：只先让用户提供需要剪辑的视频文件夹，然后默认使用下面的精剪方案。不要再询问普通剪辑还是精剪。调用 `$video-use` 检查素材、转写、提出精剪策略，按 `video-use` 需要等待确认，并按 `video-use` 规则产出剪辑版本或预览。
 - 如果不需要：让用户提供已经剪辑好的视频文件。
 
 Do not proceed without a concrete video asset from one of these branches.
@@ -223,9 +223,9 @@ Do not proceed without a concrete video asset from one of these branches.
 
 #### Fine-Cut Plan / 精剪方案
 
-When the user selects fine cut, give `$video-use` this intent:
+When the user needs editing, use this fine-cut plan by default and give `$video-use` this intent:
 
-用户选择精剪时，把下面意图交给 `$video-use` 执行：
+用户需要剪辑时，默认使用此精剪方案，并把下面意图交给 `$video-use` 执行：
 
 Goal: remove poorly delivered parts and keep the smoothest, most final-version-like expression.
 
@@ -289,9 +289,9 @@ If the user confirms packaging, continue with the next single required decision.
 
 如果用户确认继续包装，再进入下一个单独的必要决策。如果用户前面已经确认过风格，不要重复询问风格；直接询问是否基于剪辑后视频、转写/SRT、EDL、已选风格和关键词动效参考生成包装动效设计稿。
 
-Before asking for packaging approval, create or update the packaging timing bundle from the final fine-cut video. The next-step handoff should refer to this bundle rather than separate transcript, SRT, and EDL files.
+Before asking for packaging approval, create or update the packaging timing bundle from the final fine-cut video, including gesture cues when detectable. The next-step handoff should refer to this bundle rather than separate transcript, SRT, EDL, or gesture files.
 
-询问是否进入包装方案前，先基于最终精剪视频创建或更新时间包。下一步交接时应引用这个时间包，而不是零散引用转写、SRT 和 EDL 文件。
+询问是否进入包装方案前，先基于最终精剪视频创建或更新时间包，并在可检测到手势时一并生成手势 cue。下一步交接时应引用这个时间包，而不是零散引用转写、SRT、EDL 或手势文件。
 
 ### 3. Ask About Custom Style / 询问是否自定义风格
 
@@ -321,9 +321,9 @@ If a reference image file name contains `github`, or the image visibly contains 
 
 如果参考图片文件名包含 `github`，或图片中明显出现 GitHub 标识、仓库路径、`用户名 / 项目名` 结构、Public/Private 标记、语言占比条等信息，必须从中提取 GitHub 项目卡片模式。提取内容必须包括：用户名/组织名、项目名、项目功能、可见的公开/私有标记、可见的语言列表和占比，以及卡片视觉处理方式。后续字幕关键词或用户素材匹配到 `github`、`repo`、`仓库`、`项目`、`开源`、仓库名或卡片中的工具名时，优先生成 `GitHubRepoCard`，不要退化成普通卡片。
 
-Build an asset manifest before packaging design from the current Codex project/workspace and any user-specified extra asset paths. For images, inspect only the file name, path segment names, dimensions, and alpha channel/transparent background. Add aliases only from filename tokens and user-explicit asset names. Do not inspect image contents, do not OCR visible text, and do not infer rough subject, product type, or semantic meaning from the pixels. Do not treat these assets as style references unless the user explicitly says so.
+Before packaging design, build an asset manifest from the current Codex project/workspace and any user-specified extra asset paths, then inspect the final video for gesture cues. For images, inspect only the file name, path segment names, dimensions, and alpha channel/transparent background. Add aliases only from filename tokens and user-explicit asset names. Do not inspect image contents, do not OCR visible text, and do not infer rough subject, product type, or semantic meaning from the pixels. Do not treat these assets as style references unless the user explicitly says so.
 
-进入包装设计前，必须基于当前 Codex 项目/工作区和用户明确补充的素材路径建立素材清单。对图片只检查文件名、路径片段名称、尺寸、透明通道/透明背景。别名只来自文件名分词和用户明确提供的素材名称。不要理解图片内容，不要 OCR 可见文字，不要根据像素推断主体、产品类型或语义。除非用户明确说明，否则不要把这些素材当作风格参考图。
+进入包装设计前，必须基于当前 Codex 项目/工作区和用户明确补充的素材路径建立素材清单，然后检查最终视频中的手势 cue。对图片只检查文件名、路径片段名称、尺寸、透明通道/透明背景。别名只来自文件名分词和用户明确提供的素材名称。不要理解图片内容，不要 OCR 可见文字，不要根据像素推断主体、产品类型或语义。除非用户明确说明，否则不要把这些素材当作风格参考图。
 
 When a discovered or user-specified content asset file name contains `github`, create a `githubRepoCard` entry only from filename tokens or user-provided metadata. Do not inspect the asset image content to extract repository data. If filename/metadata contains enough information, add `owner`, `repo`, `function`, `visibility`, `languages`, `languagePercents`, `matchedKeywords`, and `sourceImage`; otherwise keep missing fields as `unknown` for the design draft to fill manually or omit.
 
@@ -343,9 +343,9 @@ Use `$video-use` to analyze the edited video and align visual packaging to the t
 
 使用 `$video-use` 分析剪辑后的视频，并把视觉包装与字幕/文案内容对齐。此步骤不得渲染、不得修改、不得覆盖原视频。
 
-The main agent's role in this step is to prepare inputs for `$video-use`, including the packaging timing bundle, selected style Markdown or extracted image-style brief, asset manifest when available, gesture cues when available, `references/visual-quality-system.md`, and the keyword-animation reference. Verify that the bundle exists and points to the final edited video before asking `$video-use` for a plan. `$video-use` must return the packaging motion design draft. The main agent may summarize or relay that draft to the user, but must not replace it with a self-authored packaging plan.
+The main agent's role in this step is to prepare inputs for `$video-use`, including the packaging timing bundle, selected style Markdown or extracted image-style brief, asset manifest when available, gesture cues when detectable, `references/visual-quality-system.md`, and the keyword-animation reference. Gesture cue extraction belongs before this packaging-design call, not after it. Verify that the bundle exists and points to the final edited video before asking `$video-use` for a plan. `$video-use` must return the packaging motion design draft. The main agent may summarize or relay that draft to the user, but must not replace it with a self-authored packaging plan.
 
-此步骤中，主 Agent 的职责是为 `$video-use` 准备输入，包括包装时间包、已选择的风格 Markdown 或图片风格提取 brief、可用素材清单、可用手势 cue、`references/visual-quality-system.md`，以及关键词动效参考。请求 `$video-use` 出方案前，必须确认时间包存在，并且指向最终剪辑视频。包装动效设计稿必须由 `$video-use` 返回。主 Agent 可以整理或转述该设计稿给用户，但不得用自己另写的包装方案替代它。
+此步骤中，主 Agent 的职责是为 `$video-use` 准备输入，包括包装时间包、已选择的风格 Markdown 或图片风格提取 brief、可用素材清单、可检测到的手势 cue、`references/visual-quality-system.md`，以及关键词动效参考。手势 cue 提取属于包装方案设计前置步骤，不是设计后再补。请求 `$video-use` 出方案前，必须确认时间包存在，并且指向最终剪辑视频。包装动效设计稿必须由 `$video-use` 返回。主 Agent 可以整理或转述该设计稿给用户，但不得用自己另写的包装方案替代它。
 
 Before drafting the packaging plan, read `references/visual-quality-system.md`, `references/card-style-library.md`, and `references/keyword-animation-effects.md`. The default built-in style is `Remotion Native Material Cards`. Optional built-in styles include `Holographic Glass HUD`, `Frosted Glass Packaging`, and `Reference HUD Pattern`; use them only when the user explicitly requests one, provides a matching reference, or the approved design draft names that style. A user-provided Markdown style or reference image may still be used as an explicit external custom style for that task.
 
@@ -549,12 +549,13 @@ Never skip these gates, but present them progressively. Show only the current ga
 
 不要跳过这些确认点，但必须渐进展示。每次只展示当前确认点。当前确认点解决前，不要列出后续确认点，也不要提前询问后续确认点的问题。
 
-1. Confirm whether to use ElevenLabs or Whisper for transcription.
+1. Confirm whether ElevenLabs is needed. If it is not needed, default to Whisper.
 2. Confirm whether editing is needed.
-3. If editing is needed, first ask for the source folder, then confirm the edit strategy before touching cuts.
+3. If editing is needed, ask for the source folder, then use the fine-cut plan by default.
 4. Confirm whether custom style is needed. If yes, ask the style source type in a separate follow-up question, then ask for the matching file/path.
-5. Confirm the packaging motion design before Remotion implementation.
-6. Confirm Studio preview before final export.
+5. Generate the timing bundle, asset manifest, and gesture cues before packaging design.
+6. Confirm the packaging motion design before Remotion implementation.
+7. Confirm Studio preview before final export.
 
 ## Common Mistakes / 常见错误
 
